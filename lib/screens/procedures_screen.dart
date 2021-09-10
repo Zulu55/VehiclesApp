@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 import 'package:vehicles_app/components/loader_component.dart';
 import 'package:vehicles_app/helpers/constans.dart';
@@ -34,7 +35,11 @@ class _ProceduresScreenState extends State<ProceduresScreen> {
         title: Text('Procedimientos'),
       ),
       body: Center(
-        child: _showLoader ? LoaderComponent(text: 'Por favor espere...') : Text('Procedimientos'),
+        child: _showLoader ? LoaderComponent(text: 'Por favor espere...') : _getContent(),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {  },
       ),
     );
   }
@@ -67,5 +72,69 @@ class _ProceduresScreenState extends State<ProceduresScreen> {
     }
 
     print(_procedures);
+  }
+
+  Widget _getContent() {
+    return _procedures.length == 0 
+      ? _noContent()
+      : _getListView();
+  }
+
+  Widget _noContent() {
+    return Center(
+      child: Container(
+        margin: EdgeInsets.all(20),
+        child: Text(
+          'No hay procedimientos almacenados.',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _getListView() {
+    return ListView(
+      children: _procedures.map((e) {
+        return Card(
+          child: InkWell(
+            onTap: () {},
+            child: Container(
+              margin: EdgeInsets.all(10),
+              padding: EdgeInsets.all(5),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        e.description, 
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      Icon(Icons.arrow_forward_ios),
+                    ],
+                  ),
+                  SizedBox(height: 5,),
+                  Row(
+                    children: [
+                      Text(
+                        '${NumberFormat.currency(symbol: '\$').format(e.price)}', 
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      }).toList(),
+    );
   }
 }
