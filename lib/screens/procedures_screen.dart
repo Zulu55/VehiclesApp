@@ -132,7 +132,7 @@ class _ProceduresScreenState extends State<ProceduresScreen> {
                       Text(
                         e.description, 
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 20,
                         ),
                       ),
                       Icon(Icons.arrow_forward_ios),
