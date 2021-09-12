@@ -52,22 +52,12 @@ class _ProceduresScreenState extends State<ProceduresScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(
-            context, 
-            MaterialPageRoute(
-              builder: (context) => ProcedureScreen(
-                token: widget.token, 
-                procedure: Procedure(description: '', id: 0, price: 0),
-              )
-            )
-          );
-        },
+        onPressed: () => _goAdd(),
       ),
     );
   }
 
-  void _getProcedures() async {
+  Future<Null> _getProcedures() async {
     setState(() {
       _showLoader = true;
     });
@@ -119,55 +109,48 @@ class _ProceduresScreenState extends State<ProceduresScreen> {
   }
 
   Widget _getListView() {
-    return ListView(
-      children: _procedures.map((e) {
-        return Card(
-          child: InkWell(
-            onTap: () {
-            Navigator.push(
-              context, 
-              MaterialPageRoute(
-                builder: (context) => ProcedureScreen(
-                  token: widget.token, 
-                  procedure: e,
-                )
-              )
-            );
-            },
-            child: Container(
-              margin: EdgeInsets.all(10),
-              padding: EdgeInsets.all(5),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        e.description, 
-                        style: TextStyle(
-                          fontSize: 20,
+    return RefreshIndicator(
+      onRefresh: _getProcedures,
+      child: ListView(
+        children: _procedures.map((e) {
+          return Card(
+            child: InkWell(
+              onTap: () => _goEdit(e),
+              child: Container(
+                margin: EdgeInsets.all(10),
+                padding: EdgeInsets.all(5),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          e.description, 
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
                         ),
-                      ),
-                      Icon(Icons.arrow_forward_ios),
-                    ],
-                  ),
-                  SizedBox(height: 5,),
-                  Row(
-                    children: [
-                      Text(
-                        '${NumberFormat.currency(symbol: '\$').format(e.price)}', 
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                        Icon(Icons.arrow_forward_ios),
+                      ],
+                    ),
+                    SizedBox(height: 5,),
+                    Row(
+                      children: [
+                        Text(
+                          '${NumberFormat.currency(symbol: '\$').format(e.price)}', 
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-      }).toList(),
+          );
+        }).toList(),
+      ),
     );
   }
 
@@ -237,5 +220,35 @@ class _ProceduresScreenState extends State<ProceduresScreen> {
     });
 
     Navigator.of(context).pop();
+  }
+
+  void _goAdd() async {
+    String? result = await Navigator.push(
+      context, 
+      MaterialPageRoute(
+        builder: (context) => ProcedureScreen(
+          token: widget.token, 
+          procedure: Procedure(description: '', id: 0, price: 0),
+        )
+      )
+    );
+    if (result == 'yes') {
+      _getProcedures();
+    }
+  }
+
+  void _goEdit(Procedure procedure) async {
+    String? result = await Navigator.push(
+      context, 
+      MaterialPageRoute(
+        builder: (context) => ProcedureScreen(
+          token: widget.token, 
+          procedure: procedure,
+        )
+      )
+    );
+    if (result == 'yes') {
+      _getProcedures();
+    }
   }
 }
