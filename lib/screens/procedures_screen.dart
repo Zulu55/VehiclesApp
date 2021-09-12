@@ -21,6 +21,8 @@ class ProceduresScreen extends StatefulWidget {
 class _ProceduresScreenState extends State<ProceduresScreen> {
   List<Procedure> _procedures = [];
   bool _showLoader = false;
+  bool _isFiltered = false;
+  String _search = '';
 
   @override
   void initState() {
@@ -33,6 +35,17 @@ class _ProceduresScreenState extends State<ProceduresScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Procedimientos'),
+        actions: <Widget>[
+          _isFiltered
+          ? IconButton(
+              onPressed: _removeFilter, 
+              icon: Icon(Icons.filter_none)
+            )
+          : IconButton(
+              onPressed: _showFilter, 
+              icon: Icon(Icons.filter_alt)
+            )
+        ],
       ),
       body: Center(
         child: _showLoader ? LoaderComponent(text: 'Por favor espere...') : _getContent(),
@@ -93,7 +106,9 @@ class _ProceduresScreenState extends State<ProceduresScreen> {
       child: Container(
         margin: EdgeInsets.all(20),
         child: Text(
-          'No hay procedimientos almacenados.',
+          _isFiltered
+          ? 'No hay procedimientos con ese criterio de búsqueda.'
+          : 'No hay procedimientos registrados.',
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold
@@ -154,5 +169,73 @@ class _ProceduresScreenState extends State<ProceduresScreen> {
         );
       }).toList(),
     );
+  }
+
+  void _showFilter() {
+    showDialog(
+      context: context, 
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          title: Text('Filtrar Procedimientos'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text('Escriba las primeras letras del procedimiento'),
+              SizedBox(height: 10,),
+              TextField(
+                autofocus: true,
+                decoration: InputDecoration(
+                  hintText: 'Criterio de búsqueda...',
+                  labelText: 'Buscar',
+                  suffixIcon: Icon(Icons.search)
+                ),
+                onChanged: (value) {
+                  _search = value;
+                },
+              )
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(), 
+              child: Text('Cancelar')
+            ),
+            TextButton(
+              onPressed: () => _filter(), 
+              child: Text('Filtrar')
+            ),
+          ],
+        );
+      });
+  }
+
+  void _removeFilter() {
+    setState(() {
+      _isFiltered = false;
+    });
+    _getProcedures();
+  }
+
+  void _filter() {
+    if (_search.isEmpty) {
+      return;
+    }
+
+    List<Procedure> filteredList = [];
+    for (var procedure in _procedures) {
+      if (procedure.description.toLowerCase().contains(_search.toLowerCase())) {
+        filteredList.add(procedure);
+      }
+    }
+
+    setState(() {
+      _procedures = filteredList;
+      _isFiltered = true;
+    });
+
+    Navigator.of(context).pop();
   }
 }

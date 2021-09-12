@@ -142,7 +142,7 @@ class _ProcedureScreenState extends State<ProcedureScreen> {
                       }
                     ),
                   ),
-                  onPressed: () {}, 
+                  onPressed: () => _confirmDelete(), 
               ),
           ),
         ],
@@ -188,9 +188,7 @@ class _ProcedureScreenState extends State<ProcedureScreen> {
     return isValid;
   }
 
-  _addRecord() {}
-
-  _saveRecord() async {
+  _addRecord() async {
     setState(() {
       _showLoader = true;
     });
@@ -200,10 +198,92 @@ class _ProcedureScreenState extends State<ProcedureScreen> {
       'price': double.parse(_price),
     };
 
+    Response response = await ApiHelper.post(
+      '/api/Procedures/', 
+      request, 
+      widget.token.token
+    );
+
+    setState(() {
+      _showLoader = false;
+    });
+
+    if (!response.isSuccess) {
+      await showAlertDialog(
+        context: context,
+        title: 'Error', 
+        message: response.message,
+        actions: <AlertDialogAction>[
+            AlertDialogAction(key: null, label: 'Aceptar'),
+        ]
+      );    
+      return;
+    }
+
+    Navigator.pop(context);
+  }
+
+  _saveRecord() async {
+    setState(() {
+      _showLoader = true;
+    });
+
+    Map<String, dynamic> request = {
+      'id': widget.procedure.id,
+      'description': _description,
+      'price': double.parse(_price),
+    };
+
     Response response = await ApiHelper.put(
       '/api/Procedures/', 
       widget.procedure.id.toString(), 
       request, 
+      widget.token.token
+    );
+
+    setState(() {
+      _showLoader = false;
+    });
+
+    if (!response.isSuccess) {
+      await showAlertDialog(
+        context: context,
+        title: 'Error', 
+        message: response.message,
+        actions: <AlertDialogAction>[
+            AlertDialogAction(key: null, label: 'Aceptar'),
+        ]
+      );    
+      return;
+    }
+
+    Navigator.pop(context);
+  }
+
+  void _confirmDelete() async {
+    var response =  await showAlertDialog(
+      context: context,
+      title: 'Confirmación', 
+      message: '¿Estas seguro de querer borrar el registro?',
+      actions: <AlertDialogAction>[
+          AlertDialogAction(key: 'no', label: 'No'),
+          AlertDialogAction(key: 'yes', label: 'Sí'),
+      ]
+    );    
+
+    if (response == 'yes') {
+      _deleteRecord();
+    }
+  }
+
+  void _deleteRecord() async {
+    setState(() {
+      _showLoader = true;
+    });
+
+    Response response = await ApiHelper.delete(
+      '/api/Procedures/', 
+      widget.procedure.id.toString(), 
       widget.token.token
     );
 
