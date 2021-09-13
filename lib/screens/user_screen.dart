@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 
 import 'package:vehicles_app/components/loader_component.dart';
@@ -57,6 +58,7 @@ class _UserScreenState extends State<UserScreen> {
   @override
   void initState() {
     super.initState();
+    _getDocumentTypes();
     
     _firstName = widget.user.firstName;
     _firstNameController.text = _firstName;
@@ -195,6 +197,50 @@ class _UserScreenState extends State<UserScreen> {
       _firstNameShowError = false;
     }
 
+    if (_lastName.isEmpty) {
+      isValid = false;
+      _lastNameShowError = true;
+      _lastNameError = 'Debes ingresar al menos un apellido.';
+    } else {
+      _lastNameShowError = false;
+    }
+
+    if (_document.isEmpty) {
+      isValid = false;
+      _documentShowError = true;
+      _documentError = 'Debes ingresar el número de documento.';
+    } else {
+      _documentShowError = false;
+    }
+
+    if (_email.isEmpty) {
+      isValid = false;
+      _emailShowError = true;
+      _emailError = 'Debes ingresar un email.';
+    } else if (!EmailValidator.validate(_email)) {
+      isValid = false;
+      _emailShowError = true;
+      _emailError = 'Debes ingresar un email válido.';
+    } else {
+      _emailShowError = false;
+    }
+
+    if (_address.isEmpty) {
+      isValid = false;
+      _addressShowError = true;
+      _addressError = 'Debes ingresar una dirección.';
+    } else {
+      _addressShowError = false;
+    }
+
+    if (_phoneNumber.isEmpty) {
+      isValid = false;
+      _phoneNumberShowError = true;
+      _phoneNumberError = 'Debes ingresar un teléfono.';
+    } else {
+      _phoneNumberShowError = false;
+    }
+
     setState(() { });
     return isValid;
   }
@@ -206,6 +252,13 @@ class _UserScreenState extends State<UserScreen> {
 
     Map<String, dynamic> request = {
       'firstName': _firstName,
+      'lastName': _lastName,
+      'documentType': 1,
+      'document': _document,
+      'email': _email,
+      'userName': _email,
+      'address': _address,
+      'phoneNumber': _phoneNumber,
     };
 
     Response response = await ApiHelper.post(
@@ -241,6 +294,13 @@ class _UserScreenState extends State<UserScreen> {
     Map<String, dynamic> request = {
       'id': widget.user.id,
       'firstName': _firstName,
+      'lastName': _lastName,
+      'documentType': 1,
+      'document': _document,
+      'email': _email,
+      'userName': _email,
+      'address': _address,
+      'phoneNumber': _phoneNumber,
     };
 
     Response response = await ApiHelper.put(
@@ -450,5 +510,33 @@ class _UserScreenState extends State<UserScreen> {
         },
       ),
     );
+  }
+
+  Future<Null> _getDocumentTypes() async {
+    setState(() {
+      _showLoader = true;
+    });
+
+    Response response = await ApiHelper.getDocumentTypes(widget.token.token);
+
+    setState(() {
+      _showLoader = false;
+    });
+
+    if (!response.isSuccess) {
+      await showAlertDialog(
+        context: context,
+        title: 'Error', 
+        message: response.message,
+        actions: <AlertDialogAction>[
+            AlertDialogAction(key: null, label: 'Aceptar'),
+        ]
+      );    
+      return;
+    }
+
+    setState(() {
+      _documentTypes = response.result;
+    });
   }
 }
