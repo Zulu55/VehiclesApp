@@ -32,7 +32,9 @@ class _UserScreenState extends State<UserScreen> {
   bool _lastNameShowError = false;
   TextEditingController _lastNameController = TextEditingController();
 
-  DocumentType _documentType = DocumentType(id: 0, description: '');
+  int _documentTypeId = 0;
+  String _documentTypeIdError = '';
+  bool _documentTypeIdShowError = false;
   List<DocumentType> _documentTypes = [];
 
   String _document = '';
@@ -66,7 +68,7 @@ class _UserScreenState extends State<UserScreen> {
     _lastName = widget.user.lastName;
     _lastNameController.text = _lastName;
 
-    _documentType = widget.user.documentType;
+    _documentTypeId = widget.user.documentType.id;
 
     _document = widget.user.document;
     _documentController.text = _document;
@@ -205,6 +207,14 @@ class _UserScreenState extends State<UserScreen> {
       _lastNameShowError = false;
     }
 
+    if (_documentTypeId == 0) {
+      isValid = false;
+      _documentTypeIdShowError = true;
+      _documentTypeIdError = 'Debes seleccionar el tipo de documento.';
+    } else {
+      _documentTypeIdShowError = false;
+    }
+
     if (_document.isEmpty) {
       isValid = false;
       _documentShowError = true;
@@ -253,7 +263,7 @@ class _UserScreenState extends State<UserScreen> {
     Map<String, dynamic> request = {
       'firstName': _firstName,
       'lastName': _lastName,
-      'documentType': 1,
+      'documentType': _documentTypeId,
       'document': _document,
       'email': _email,
       'userName': _email,
@@ -295,7 +305,7 @@ class _UserScreenState extends State<UserScreen> {
       'id': widget.user.id,
       'firstName': _firstName,
       'lastName': _lastName,
-      'documentType': 1,
+      'documentType': _documentTypeId,
       'document': _document,
       'email': _email,
       'userName': _email,
@@ -419,9 +429,27 @@ class _UserScreenState extends State<UserScreen> {
   }
 
   Widget _showDocumentType() {
-    //TODO: Pending to implement
     return Container(
-
+      padding: EdgeInsets.all(10),
+      child: _documentTypes.length == 0 
+        ? Text('Cargando tipos de documentos...')
+        : DropdownButtonFormField(
+            items: _getComboDocumentTypes(),
+            value: _documentTypeId,
+            onChanged: (option) {
+              setState(() {
+                _documentTypeId = option as int;
+              });
+            },
+            decoration: InputDecoration(
+              hintText: 'Seleccione un tipo de documento...',
+              labelText: 'Tipo documento',
+              errorText: _documentTypeIdShowError ? _documentTypeIdError : null,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10)
+              ),
+            ),
+          )
     );
   }
 
@@ -538,5 +566,23 @@ class _UserScreenState extends State<UserScreen> {
     setState(() {
       _documentTypes = response.result;
     });
+  }
+
+  List<DropdownMenuItem<int>> _getComboDocumentTypes() {
+    List<DropdownMenuItem<int>> list = [];
+    
+    list.add(DropdownMenuItem(
+      child: Text('Seleccione un tipo de documento...'),
+      value: 0,
+    ));
+
+    _documentTypes.forEach((documnentType) { 
+      list.add(DropdownMenuItem(
+        child: Text(documnentType.description),
+        value: documnentType.id,
+      ));
+    });
+
+    return list;
   }
 }
