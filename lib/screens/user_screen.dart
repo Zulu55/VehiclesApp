@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:camera/camera.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +9,7 @@ import 'package:vehicles_app/models/document_type.dart';
 import 'package:vehicles_app/models/response.dart';
 import 'package:vehicles_app/models/token.dart';
 import 'package:vehicles_app/models/user.dart';
+import 'package:vehicles_app/screens/take_picture_screen.dart';
 
 class UserScreen extends StatefulWidget {
   final Token token;
@@ -386,24 +388,27 @@ class _UserScreenState extends State<UserScreen> {
   }
 
   Widget _showPhoto() {
-    return Container(
-      margin: EdgeInsets.only(top: 10),
-      child: widget.user.id.isEmpty 
-        ? Image(
-            image: AssetImage('assets/noimage.png'),
-            height: 160,
-            width: 160,
-          ) 
-        : ClipRRect(
-            borderRadius: BorderRadius.circular(80),
-            child: FadeInImage(
-              placeholder: AssetImage('assets/vehicles_logo.png'), 
-              image: NetworkImage(widget.user.imageFullPath),
-              width: 160,
+    return InkWell(
+      onTap: () => _takePicture(),
+      child: Container(
+        margin: EdgeInsets.only(top: 10),
+        child: widget.user.id.isEmpty 
+          ? Image(
+              image: AssetImage('assets/noimage.png'),
               height: 160,
-              fit: BoxFit.cover
+              width: 160,
+            ) 
+          : ClipRRect(
+              borderRadius: BorderRadius.circular(80),
+              child: FadeInImage(
+                placeholder: AssetImage('assets/vehicles_logo.png'), 
+                image: NetworkImage(widget.user.imageFullPath),
+                width: 160,
+                height: 160,
+                fit: BoxFit.cover
+              ),
             ),
-          ),
+      ),
     );
   }
 
@@ -584,5 +589,17 @@ class _UserScreenState extends State<UserScreen> {
     });
 
     return list;
+  }
+
+  void _takePicture() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    final cameras = await availableCameras();
+    final firstCamera = cameras.first;
+    Navigator.push(
+      context, 
+      MaterialPageRoute(
+        builder: (context) => TakePictureScreen(camera: firstCamera,)
+      )
+    );
   }
 }
