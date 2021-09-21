@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:vehicles_app/models/response.dart';
 import 'package:vehicles_app/screens/display_picture_screen.dart';
 
 class TakePictureScreen extends StatefulWidget {
@@ -53,11 +54,14 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
           try {
             await _initializeControllerFuture;
             final image = await _controller.takePicture();
-            await Navigator.of(context).push(
+            Response? response = await Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => DisplayPictureScreen(imagePath: image.path,)
+                builder: (context) => DisplayPictureScreen(image: image,)
               )
             );
+            if (response != null) {
+              Navigator.pop(context, response);
+            }
           } catch (e) {
             print(e);
           }
