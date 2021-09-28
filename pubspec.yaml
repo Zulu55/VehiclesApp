@@ -35,6 +35,7 @@ dependencies:
   camera: ^0.9.4
   path_provider: ^2.0.5
   path: ^1.8.0
+  connectivity: ^3.0.6
 
 dev_dependencies:
   flutter_test:

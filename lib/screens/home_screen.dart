@@ -142,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           ListTile(
             leading: Icon(Icons.logout),
-            title: const Text('Cerras Sesión'),
+            title: const Text('Cerrar Sesión'),
             onTap: () { 
               Navigator.pushReplacement(
                 context, 
@@ -183,7 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           ListTile(
             leading: Icon(Icons.logout),
-            title: const Text('Cerras Sesión'),
+            title: const Text('Cerrar Sesión'),
             onTap: () { 
               Navigator.pushReplacement(
                 context, 
