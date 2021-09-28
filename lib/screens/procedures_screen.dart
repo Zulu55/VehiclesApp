@@ -79,7 +79,7 @@ class _ProceduresScreenState extends State<ProceduresScreen> {
       return;
     }
 
-    Response response = await ApiHelper.getProcedures(widget.token.token);
+    Response response = await ApiHelper.getProcedures(widget.token);
 
     setState(() {
       _showLoader = false;

@@ -172,7 +172,7 @@ class _DocumentTypeScreenState extends State<DocumentTypeScreen> {
     Response response = await ApiHelper.post(
       '/api/DocumentTypes/', 
       request, 
-      widget.token.token
+      widget.token
     );
 
     setState(() {
@@ -224,7 +224,7 @@ class _DocumentTypeScreenState extends State<DocumentTypeScreen> {
       '/api/DocumentTypes/', 
       widget.documentType.id.toString(), 
       request, 
-      widget.token.token
+      widget.token
     );
 
     setState(() {
@@ -286,7 +286,7 @@ class _DocumentTypeScreenState extends State<DocumentTypeScreen> {
     Response response = await ApiHelper.delete(
       '/api/DocumentTypes/', 
       widget.documentType.id.toString(), 
-      widget.token.token
+      widget.token
     );
 
     setState(() {

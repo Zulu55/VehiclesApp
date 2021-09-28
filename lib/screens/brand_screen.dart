@@ -172,7 +172,7 @@ class _BrandScreenState extends State<BrandScreen> {
     Response response = await ApiHelper.post(
       '/api/Brands/', 
       request, 
-      widget.token.token
+      widget.token
     );
 
     setState(() {
@@ -224,7 +224,7 @@ class _BrandScreenState extends State<BrandScreen> {
       '/api/Brands/', 
       widget.brand.id.toString(), 
       request, 
-      widget.token.token
+      widget.token
     );
 
     setState(() {
@@ -286,7 +286,7 @@ class _BrandScreenState extends State<BrandScreen> {
     Response response = await ApiHelper.delete(
       '/api/Brands/', 
       widget.brand.id.toString(), 
-      widget.token.token
+      widget.token
     );
 
     setState(() {
