@@ -36,15 +36,10 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
       appBar: AppBar(
         title: Text(_user.fullName),
       ),
-      body: Stack(
-        children: <Widget>[
-          Column(
-            children: <Widget>[
-              _showUserInfo(),
-            ],
-          ),
-          _showLoader ? LoaderComponent(text: 'Por favor espere...',) : Container(),
-        ],
+      body: Center(
+        child: _showLoader 
+          ? LoaderComponent(text: 'Por favor espere...',) 
+          : _getContent(),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
@@ -276,4 +271,118 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   }
 
   _goAdd() {}
+
+  Widget _getContent() {
+    return Column(
+      children: <Widget>[
+        _showUserInfo(),
+        Expanded(
+          child: _user.vehicles.length == 0 ? _noContent() : _getListView(),
+        ),
+      ],
+    );
+  }
+
+  Widget _getListView() {
+    return RefreshIndicator(
+      onRefresh: _getUser,
+      child: ListView(
+        children: _user.vehicles.map((e) {
+          return Card(
+            child: InkWell(
+              onTap: () => _goVehicle(),
+              child: Container(
+                margin: EdgeInsets.all(10),
+                padding: EdgeInsets.all(5),
+                child: Row(
+                  children: <Widget>[
+                    FadeInImage(
+                      placeholder: AssetImage('assets/vehicle_logo.png'), 
+                      image: NetworkImage(e.imageFullPath),
+                      width: 80,
+                      height: 80,
+                      fit: BoxFit.cover,
+                    ),
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                Text(
+                                  e.plaque,
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      e.vehicleType.description,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    SizedBox(width: 5,),
+                                    Text(
+                                      e.brand.description,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      e.line,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    SizedBox(width: 5,),
+                                    Text(
+                                      e.color,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      )
+                    ),
+                    Icon(Icons.arrow_forward_ios, size: 40,)
+                  ],
+                ),
+              ),
+            ),
+          );
+        }).toList(),
+      ), 
+    );
+  }
+
+  Widget _noContent() {
+    return Center(
+      child: Container(
+        margin: EdgeInsets.all(20),
+        child: Text(
+          'El usuario no tiene vehículos registrados.',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _goVehicle() {}
 }
