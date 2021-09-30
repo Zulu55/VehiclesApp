@@ -11,7 +11,7 @@ class Vehicle {
   String plaque = '';
   String line = '';
   String color = '';
-  String remarks = '';
+  String? remarks = '';
   List<VehiclePhoto> vehiclePhotos = [];
   int vehiclePhotosCount = 0;
   String imageFullPath = '';

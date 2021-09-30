@@ -1,6 +1,10 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 
 import 'package:vehicles_app/components/loader_component.dart';
+import 'package:vehicles_app/helpers/api_helper.dart';
+import 'package:vehicles_app/models/response.dart';
 import 'package:vehicles_app/models/token.dart';
 import 'package:vehicles_app/models/user.dart';
 import 'package:vehicles_app/screens/user_screen.dart';
@@ -17,23 +21,34 @@ class UserInfoScreen extends StatefulWidget {
 
 class _UserInfoScreenState extends State<UserInfoScreen> {
   bool _showLoader = false;
+  late User _user;
+
+  @override
+  void initState() {
+    super.initState();
+    _user = widget.user;
+    _getUser();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.user.fullName),
+        title: Text(_user.fullName),
       ),
       body: Stack(
         children: <Widget>[
           Column(
             children: <Widget>[
               _showUserInfo(),
-              _showButtons(),         
             ],
           ),
           _showLoader ? LoaderComponent(text: 'Por favor espere...',) : Container(),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () => _goAdd(),
       ),
     );
   }
@@ -43,16 +58,40 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(5),
       child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(50),
-            child: FadeInImage(
-              placeholder: AssetImage('assets/vehicles_logo.png'), 
-              image: NetworkImage(widget.user.imageFullPath),
-              width: 100,
-              height: 100,
-              fit: BoxFit.cover
-            ),
+        children: <Widget>[
+          Stack(
+            children: <Widget>[
+              ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: FadeInImage(
+                  placeholder: AssetImage('assets/vehicles_logo.png'), 
+                  image: NetworkImage(_user.imageFullPath),
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.cover
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                left: 60,
+                child: InkWell(
+                  onTap: () => _goEdit(),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: Container(
+                      color: Colors.green[50],
+                      height: 40,
+                      width: 40,
+                      child: Icon(
+                        Icons.edit,
+                        size: 30,
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ),
+                )
+              )
+            ],
           ),
           Expanded(
             child: Container(
@@ -73,7 +112,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                               )
                             ),
                             Text(
-                              widget.user.email, 
+                              _user.email, 
                               style: TextStyle(
                                 fontSize: 14,
                               ),
@@ -90,7 +129,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                               )
                             ),
                             Text(
-                              widget.user.documentType.description, 
+                              _user.documentType.description, 
                               style: TextStyle(
                                 fontSize: 14,
                               ),
@@ -107,7 +146,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                               )
                             ),
                             Text(
-                              widget.user.document, 
+                              _user.document, 
                               style: TextStyle(
                                 fontSize: 14,
                               ),
@@ -124,7 +163,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                               )
                             ),
                             Text(
-                              widget.user.address, 
+                              _user.address, 
                               style: TextStyle(
                                 fontSize: 14,
                               ),
@@ -141,7 +180,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                               )
                             ),
                             Text(
-                              widget.user.phoneNumber, 
+                              _user.phoneNumber, 
                               style: TextStyle(
                                 fontSize: 14,
                               ),
@@ -158,7 +197,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                               )
                             ),
                             Text(
-                              widget.user.vehiclesCount.toString(), 
+                              _user.vehiclesCount.toString(), 
                               style: TextStyle(
                                 fontSize: 14,
                               ),
@@ -177,59 +216,13 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     );
   }
 
-  Widget _showButtons() {
-    return Container(
-      margin: EdgeInsets.only(left: 10, right: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          _showEditUserButton(),
-          SizedBox(width: 20,),
-          _showAddVehicleButton(),
-        ],
-      ),
-    );
-  }
-
-  Widget _showEditUserButton() {
-    return Expanded(
-      child: ElevatedButton(
-        child: Text('Editar Usuario'),
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.resolveWith<Color>(
-            (Set<MaterialState> states) {
-              return Color(0xFF120E43);
-            }
-          ),
-        ),
-        onPressed: () => _goEdit(), 
-      ),
-    );
-  }
-
-  Widget _showAddVehicleButton() {
-    return Expanded(
-      child: ElevatedButton(
-        child: Text('Agregar Vehículo'),
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.resolveWith<Color>(
-            (Set<MaterialState> states) {
-              return Color(0xFFE03B8B);
-            }
-          ),
-        ),
-        onPressed: () {}, 
-      ),
-    );
-  }
-
   void _goEdit() async {
     String? result = await Navigator.push(
       context, 
       MaterialPageRoute(
         builder: (context) => UserScreen(
           token: widget.token, 
-          user: widget.user,
+          user: _user,
         )
       )
     );
@@ -237,4 +230,50 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
       //TODO: Pending refresh user info
     }
   }
+
+  Future<Null> _getUser() async {
+    setState(() {
+      _showLoader = true;
+    });
+
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      setState(() {
+        _showLoader = false;
+      });
+      await showAlertDialog(
+        context: context,
+        title: 'Error', 
+        message: 'Verifica que estes conectado a internet.',
+        actions: <AlertDialogAction>[
+            AlertDialogAction(key: null, label: 'Aceptar'),
+        ]
+      );    
+      return;
+    }
+
+    Response response = await ApiHelper.getUser(widget.token, _user.id);
+
+    setState(() {
+      _showLoader = false;
+    });
+
+    if (!response.isSuccess) {
+      await showAlertDialog(
+        context: context,
+        title: 'Error', 
+        message: response.message,
+        actions: <AlertDialogAction>[
+            AlertDialogAction(key: null, label: 'Aceptar'),
+        ]
+      );    
+      return;
+    }
+
+    setState(() {
+      _user = response.result;
+    });
+  }
+
+  _goAdd() {}
 }

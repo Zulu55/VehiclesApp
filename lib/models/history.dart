@@ -5,7 +5,7 @@ class History {
   String date = '';
   String dateLocal = '';
   int mileage = 0;
-  String remarks = '';
+  String? remarks = '';
   List<Detail> details = [];
   int detailsCount = 0;
   double totalLabor = 0;
