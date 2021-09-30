@@ -132,12 +132,17 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _showButtons() {
     return Container(
       margin: EdgeInsets.only(left: 10, right: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          _showLoginButton(),
-          SizedBox(width: 20,),
-          _showRegisterButton(),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              _showLoginButton(),
+              SizedBox(width: 20,),
+              _showRegisterButton(),
+            ],
+          ),
+          Text('Lo wrapiamos'),
         ],
       ),
     );
