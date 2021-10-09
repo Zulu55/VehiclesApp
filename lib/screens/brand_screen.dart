@@ -44,7 +44,7 @@ class _BrandScreenState extends State<BrandScreen> {
         ),
       ),
       body: Stack(
-        children: [
+        children: <Widget>[
           Column(
             children: <Widget>[
               _showDescription(),

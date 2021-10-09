@@ -4,10 +4,14 @@ import 'package:flutter/material.dart';
 
 import 'package:vehicles_app/components/loader_component.dart';
 import 'package:vehicles_app/helpers/api_helper.dart';
+import 'package:vehicles_app/models/brand.dart';
 import 'package:vehicles_app/models/response.dart';
 import 'package:vehicles_app/models/token.dart';
 import 'package:vehicles_app/models/user.dart';
+import 'package:vehicles_app/models/vehicle.dart';
+import 'package:vehicles_app/models/vehicle_type.dart';
 import 'package:vehicles_app/screens/user_screen.dart';
+import 'package:vehicles_app/screens/vehicle_screen.dart';
 
 class UserInfoScreen extends StatefulWidget {
   final Token token;
@@ -43,7 +47,21 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () => _goAdd(),
+        onPressed: () => _goVehicle(Vehicle(
+          brand: Brand(id: 0, description: ''), 
+          color: '', 
+          histories: [], 
+          historiesCount: 0, 
+          id: 0, 
+          imageFullPath: '', 
+          line: '', 
+          model: 2021, 
+          plaque: '', 
+          remarks: '', 
+          vehiclePhotos: [], 
+          vehiclePhotosCount: 0, 
+          vehicleType: VehicleType(id: 0, description: '')
+        )),
       ),
     );
   }
@@ -270,7 +288,21 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     });
   }
 
-  _goAdd() {}
+  void _goVehicle(Vehicle vehicle) async { 
+    String? result = await  Navigator.push(
+      context, 
+      MaterialPageRoute(
+        builder: (context) => VehicleScreen(
+          token: widget.token, 
+          user: _user, 
+          vehicle: vehicle
+        ) 
+      )
+    );
+    if (result == 'yes') {
+      _getUser();
+    }
+  }
 
   Widget _getContent() {
     return Column(
@@ -290,7 +322,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         children: _user.vehicles.map((e) {
           return Card(
             child: InkWell(
-              onTap: () => _goVehicle(),
+              onTap: () => _goVehicle(e),
               child: Container(
                 margin: EdgeInsets.all(10),
                 padding: EdgeInsets.all(5),
@@ -383,6 +415,4 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
       ),
     );
   }
-
-  void _goVehicle() {}
 }
