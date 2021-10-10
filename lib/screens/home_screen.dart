@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -40,13 +41,19 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(150),
-            child: FadeInImage(
-              placeholder: AssetImage('assets/vehicles_logo.png'), 
-              image: NetworkImage(widget.token.user.imageFullPath),
+            child: CachedNetworkImage(
+              imageUrl: widget.token.user.imageFullPath,
+              errorWidget: (context, url, error) => Icon(Icons.error),
+              fit: BoxFit.cover,
               height: 300,
               width: 300,
-              fit: BoxFit.cover
-            ),
+              placeholder: (context, url) => Image(
+                image: AssetImage('assets/vehicles_logo.png'),
+                fit: BoxFit.cover,
+                height: 300,
+                width: 300,
+              ),
+            )
           ),
           SizedBox(height: 30,),
           Center(

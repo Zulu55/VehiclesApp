@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:camera/camera.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
@@ -130,12 +131,18 @@ class _VehicleScreenState extends State<VehicleScreen> {
                     width: 160,
                     fit: BoxFit.cover,
                   ) 
-                : FadeInImage(
-                    placeholder: AssetImage('assets/vehicles_logo.png'), 
-                    image: NetworkImage(widget.vehicle.imageFullPath),
-                    width: 160,
+                : CachedNetworkImage(
+                    imageUrl: widget.vehicle.imageFullPath,
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                    fit: BoxFit.cover,
                     height: 160,
-                    fit: BoxFit.cover
+                    width: 160,
+                    placeholder: (context, url) => Image(
+                      image: AssetImage('assets/vehicles_logo.png'),
+                      fit: BoxFit.cover,
+                      height: 160,
+                      width: 160,
+                    ),
                   ),
               ),        
         ),
