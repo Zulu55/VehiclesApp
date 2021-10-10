@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:camera/camera.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+
 import 'package:vehicles_app/components/loader_component.dart';
 import 'package:vehicles_app/helpers/api_helper.dart';
 import 'package:vehicles_app/models/brand.dart';
@@ -15,8 +16,7 @@ import 'package:vehicles_app/models/token.dart';
 import 'package:vehicles_app/models/user.dart';
 import 'package:vehicles_app/models/vehicle.dart';
 import 'package:vehicles_app/models/vehicle_type.dart';
-
-import 'take_picture_screen.dart';
+import 'package:vehicles_app/screens/take_picture_screen.dart';
 
 class VehicleScreen extends StatefulWidget {
   final Token token;
@@ -33,6 +33,8 @@ class _VehicleScreenState extends State<VehicleScreen> {
   bool _showLoader = false;
   bool _photoChanged = false;
   late XFile _image;
+  int _current = 0;
+  CarouselController _carouselController = CarouselController();
 
   int _vehicleTypeId = 0;
   String _vehicleTypeIdError = '';
@@ -72,9 +74,7 @@ class _VehicleScreenState extends State<VehicleScreen> {
   @override
   void initState() {
     super.initState();
-    _getVehiclesTypes();
-    _getBrands();
-    _loadFieldValues();
+    _loadData();
   }
 
   @override
@@ -111,6 +111,12 @@ class _VehicleScreenState extends State<VehicleScreen> {
   }
 
   Widget _showPhoto() {
+    return widget.vehicle.id == 0
+      ? _showUniquePhoto()
+      : _showPhotosCarousel();
+  }
+
+  Widget _showUniquePhoto() {
     return Stack(
       children: <Widget>[
         Container(
@@ -814,5 +820,131 @@ class _VehicleScreenState extends State<VehicleScreen> {
 
     _remarks = widget.vehicle.remarks == null ? '' : widget.vehicle.remarks!;
     _remarksController.text = _remarks;   
+  }
+
+  Widget _showPhotosCarousel() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        children: [
+          CarouselSlider(
+            options: CarouselOptions(
+              height: 200,
+              autoPlay: true,
+              autoPlayInterval: Duration(seconds: 3),
+              enlargeCenterPage: true,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  _current = index;
+                });
+              }
+            ),
+            carouselController: _carouselController,
+            items: widget.vehicle.vehiclePhotos.map((i) {
+              return Builder(
+                builder: (BuildContext context) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: EdgeInsets.symmetric(horizontal: 5),
+                    child:  ClipRRect(
+                       borderRadius: BorderRadius.circular(20),
+                      child: CachedNetworkImage(
+                        imageUrl: i.imageFullPath,
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        fit: BoxFit.cover,
+                        height: 300,
+                        width: 300,
+                        placeholder: (context, url) => Image(
+                          image: AssetImage('assets/vehicles_logo.png'),
+                          fit: BoxFit.cover,
+                          height: 300,
+                          width: 300,
+                        ),
+                      ),
+                    )
+                  );
+                },
+              );
+            }).toList(),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: widget.vehicle.vehiclePhotos.asMap().entries.map((entry) {
+              return GestureDetector(
+                onTap: () => _carouselController.animateToPage(entry.key),
+                child: Container(
+                  width: 12.0,
+                  height: 12.0,
+                  margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: (Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white
+                              : Colors.black)
+                          .withOpacity(_current == entry.key ? 0.9 : 0.4)),
+                ),
+              );
+            }).toList(),
+          ),
+          _showImageButtons()        
+        ],
+      ),
+    );
+  }
+
+  void _loadData() async {
+    await _getVehiclesTypes();
+    await _getBrands();
+    _loadFieldValues();
+  }
+
+  Widget _showImageButtons() {
+    return Container(
+      margin: EdgeInsets.only(left: 10, right: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Expanded(
+            child: ElevatedButton(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Icon(Icons.add_a_photo),
+                  Text('Adicionar Foto'),
+                ],
+              ),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                  (Set<MaterialState> states) {
+                    return Color(0xFF120E43);
+                  }
+                ),
+              ),
+              onPressed: () {}, 
+            ),
+          ),
+          SizedBox(width: 20,),
+          Expanded(
+            child: ElevatedButton(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Icon(Icons.delete),
+                  Text('Eliminar Foto'),
+                ],
+              ),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                  (Set<MaterialState> states) {
+                    return Color(0xFFB4161B);
+                  }
+                ),
+              ),
+              onPressed: () {}, 
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
