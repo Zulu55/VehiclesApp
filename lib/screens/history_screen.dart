@@ -1,43 +1,47 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
-
 import 'package:vehicles_app/components/loader_component.dart';
 import 'package:vehicles_app/helpers/api_helper.dart';
-import 'package:vehicles_app/models/procedure.dart';
+import 'package:vehicles_app/models/history.dart';
 import 'package:vehicles_app/models/response.dart';
+
 import 'package:vehicles_app/models/token.dart';
+import 'package:vehicles_app/models/user.dart';
+import 'package:vehicles_app/models/vehicle.dart';
 
-class ProcedureScreen extends StatefulWidget {
+class HistoryScreen extends StatefulWidget {
   final Token token;
-  final Procedure procedure;
+  final User user;
+  final Vehicle vehicle;
+  final History history;
 
-  ProcedureScreen({required this.token, required this.procedure});
+  HistoryScreen({required this.token, required this.user, required this.vehicle, required this.history});
 
   @override
-  _ProcedureScreenState createState() => _ProcedureScreenState();
+  _HistoryScreenState createState() => _HistoryScreenState();
 }
 
-class _ProcedureScreenState extends State<ProcedureScreen> {
+class _HistoryScreenState extends State<HistoryScreen> {
   bool _showLoader = false;
 
-  String _description = '';
-  String _descriptionError = '';
-  bool _descriptionShowError = false;
-  TextEditingController _descriptionController = TextEditingController();
+  String _remarks = '';
+  String _remarksError = '';
+  bool _remarksShowError = false;
+  TextEditingController _remarksController = TextEditingController();
 
-  String _price = '';
-  String _priceError = '';
-  bool _priceShowError = false;
-  TextEditingController _priceController = TextEditingController();
+  String _mileage = '';
+  String _mileageError = '';
+  bool _mileageShowError = false;
+  TextEditingController _mileageController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _description = widget.procedure.description;
-    _descriptionController.text = _description;
-    _price = widget.procedure.price.toString();
-    _priceController.text = _price;
+    _remarks = widget.history.remarks!;
+    _remarksController.text = _remarks;
+    _mileage = widget.history.mileage.toString();
+    _mileageController.text = _mileage;
   }
 
   @override
@@ -45,17 +49,17 @@ class _ProcedureScreenState extends State<ProcedureScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.procedure.id == 0 
-            ? 'Nuevo procedimiento' 
-            : widget.procedure.description
+          widget.history.id == 0 
+            ? 'Nueva historia' 
+            : 'Editar historia'
         ),
       ),
       body: Stack(
-        children: [
+        children: <Widget>[
           Column(
             children: <Widget>[
-              _showDescription(),
-              _showPrice(),
+              _showRemarks(),
+              _showMileage(),
               _showButtons(),
             ],
           ),
@@ -65,45 +69,48 @@ class _ProcedureScreenState extends State<ProcedureScreen> {
     );
   }
 
-  Widget _showDescription() {
+  Widget _showRemarks() {
     return Container(
       padding: EdgeInsets.all(10),
       child: TextField(
         autofocus: true,
-        controller: _descriptionController,
+        keyboardType: TextInputType.multiline,
+        minLines: 4,
+        maxLines: 4,
+        controller: _remarksController,
         decoration: InputDecoration(
-          hintText: 'Ingresa una descripción...',
-          labelText: 'Descripción',
-          errorText: _descriptionShowError ? _descriptionError : null,
+          hintText: 'Ingresa un comentario...',
+          labelText: 'Comentario',
+          errorText: _remarksShowError ? _remarksError : null,
           suffixIcon: Icon(Icons.description),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10)
           ),
         ),
         onChanged: (value) {
-          _description = value;
+          _remarks = value;
         },
       ),
     );
   }
 
-  Widget _showPrice() {
+  Widget _showMileage() {
     return Container(
       padding: EdgeInsets.all(10),
       child: TextField(
-        keyboardType: TextInputType.numberWithOptions(decimal: true, signed: false),
-        controller: _priceController,
+        keyboardType: TextInputType.number,
+        controller: _mileageController,
         decoration: InputDecoration(
-          hintText: 'Ingresa un precio...',
-          labelText: 'Precio',
-          errorText: _priceShowError ? _priceError : null,
-          suffixIcon: Icon(Icons.attach_money),
+          hintText: 'Ingresa un kilometraje...',
+          labelText: 'Kilometraje',
+          errorText: _mileageShowError ? _mileageError : null,
+          suffixIcon: Icon(Icons.directions_car),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10)
           ),
         ),
         onChanged: (value) {
-          _price = value;
+          _mileage = value;
         },
       ),
     );
@@ -128,10 +135,10 @@ class _ProcedureScreenState extends State<ProcedureScreen> {
               onPressed: () => _save(), 
             ),
           ),
-          widget.procedure.id == 0 
+          widget.history.id == 0 
             ? Container() 
             : SizedBox(width: 20,),
-          widget.procedure.id == 0 
+          widget.history.id == 0 
             ? Container() 
             : Expanded(
                 child: ElevatedButton(
@@ -156,32 +163,94 @@ class _ProcedureScreenState extends State<ProcedureScreen> {
       return;
     }
 
-    widget.procedure.id == 0 ? _addRecord() : _saveRecord();
+    widget.history.id == 0 ? _addRecord() : _saveRecord();
+  }
+
+  void _confirmDelete() async {
+    var response =  await showAlertDialog(
+      context: context,
+      title: 'Confirmación', 
+      message: '¿Estas seguro de querer borrar el registro?',
+      actions: <AlertDialogAction>[
+          AlertDialogAction(key: 'no', label: 'No'),
+          AlertDialogAction(key: 'yes', label: 'Sí'),
+      ]
+    );    
+
+    if (response == 'yes') {
+      _deleteRecord();
+    }
+  }
+
+  void _deleteRecord() async {
+    setState(() {
+      _showLoader = true;
+    });
+
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      setState(() {
+        _showLoader = false;
+      });
+      await showAlertDialog(
+        context: context,
+        title: 'Error', 
+        message: 'Verifica que estes conectado a internet.',
+        actions: <AlertDialogAction>[
+            AlertDialogAction(key: null, label: 'Aceptar'),
+        ]
+      );    
+      return;
+    }
+
+    Response response = await ApiHelper.delete(
+      '/api/Histories/', 
+      widget.history.id.toString(), 
+      widget.token
+    );
+
+    setState(() {
+      _showLoader = false;
+    });
+
+    if (!response.isSuccess) {
+      await showAlertDialog(
+        context: context,
+        title: 'Error', 
+        message: response.message,
+        actions: <AlertDialogAction>[
+            AlertDialogAction(key: null, label: 'Aceptar'),
+        ]
+      );    
+      return;
+    }
+
+    Navigator.pop(context, 'yes');
   }
 
   bool _validateFields() {
     bool isValid = true;
 
-    if (_description.isEmpty) {
+    if (_remarks.isEmpty) {
       isValid = false;
-      _descriptionShowError = true;
-      _descriptionError = 'Debes ingresar una descripción.';
+      _remarksShowError = true;
+      _remarksError = 'Debes ingresar un comentario.';
     } else {
-      _descriptionShowError = false;
+      _remarksShowError = false;
     }
 
-    if (_price.isEmpty) {
+    if (_mileage.isEmpty) {
       isValid = false;
-      _priceShowError = true;
-      _priceError = 'Debes ingresar un precio.';
+      _mileageShowError = true;
+      _mileageError = 'Debes ingresar un kilometraje.';
     } else {
-      double price = double.parse(_price);
-      if (price <= 0) {
+      int mileage = int.parse(_mileage);
+      if (mileage <= 0) {
         isValid = false;
-        _priceShowError = true;
-        _priceError = 'Debes ingresar un precio mayor a cero.';
+        _mileageShowError = true;
+        _mileageError = 'Debes ingresar un kilometraje mayor a cero.';
       } else {
-        _priceShowError = false;
+        _mileageShowError = false;
       }
     }
 
@@ -211,12 +280,13 @@ class _ProcedureScreenState extends State<ProcedureScreen> {
     }
 
     Map<String, dynamic> request = {
-      'description': _description,
-      'price': double.parse(_price),
+      'vehicleId': widget.vehicle.id,
+      'mileage': int.parse(_mileage),
+      'remarks': _remarks,
     };
 
     Response response = await ApiHelper.post(
-      '/api/Procedures/', 
+      '/api/Histories/', 
       request, 
       widget.token
     );
@@ -262,77 +332,16 @@ class _ProcedureScreenState extends State<ProcedureScreen> {
     }
 
     Map<String, dynamic> request = {
-      'id': widget.procedure.id,
-      'description': _description,
-      'price': double.parse(_price),
+      'id': widget.history.id,
+      'vehicleId': widget.vehicle.id,
+      'mileage': int.parse(_mileage),
+      'remarks': _remarks,
     };
 
     Response response = await ApiHelper.put(
-      '/api/Procedures/', 
-      widget.procedure.id.toString(), 
+      '/api/Histories/', 
+      widget.history.id.toString(), 
       request, 
-      widget.token
-    );
-
-    setState(() {
-      _showLoader = false;
-    });
-
-    if (!response.isSuccess) {
-      await showAlertDialog(
-        context: context,
-        title: 'Error', 
-        message: response.message,
-        actions: <AlertDialogAction>[
-            AlertDialogAction(key: null, label: 'Aceptar'),
-        ]
-      );    
-      return;
-    }
-
-    Navigator.pop(context, 'yes');
-  }
-
-  void _confirmDelete() async {
-    var response =  await showAlertDialog(
-      context: context,
-      title: 'Confirmación', 
-      message: '¿Estas seguro de querer borrar el registro?',
-      actions: <AlertDialogAction>[
-          AlertDialogAction(key: 'no', label: 'No'),
-          AlertDialogAction(key: 'yes', label: 'Sí'),
-      ]
-    );    
-
-    if (response == 'yes') {
-      _deleteRecord();
-    }
-  }
-
-  void _deleteRecord() async {
-    setState(() {
-      _showLoader = true;
-    });
-
-    var connectivityResult = await Connectivity().checkConnectivity();
-    if (connectivityResult == ConnectivityResult.none) {
-      setState(() {
-        _showLoader = false;
-      });
-      await showAlertDialog(
-        context: context,
-        title: 'Error', 
-        message: 'Verifica que estes conectado a internet.',
-        actions: <AlertDialogAction>[
-            AlertDialogAction(key: null, label: 'Aceptar'),
-        ]
-      );    
-      return;
-    }
-
-    Response response = await ApiHelper.delete(
-      '/api/Procedures/', 
-      widget.procedure.id.toString(), 
       widget.token
     );
 

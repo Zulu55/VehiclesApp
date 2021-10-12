@@ -3,14 +3,64 @@ import 'package:http/http.dart' as http;
 
 import 'package:vehicles_app/models/brand.dart';
 import 'package:vehicles_app/models/document_type.dart';
+import 'package:vehicles_app/models/history.dart';
 import 'package:vehicles_app/models/procedure.dart';
 import 'package:vehicles_app/models/response.dart';
 import 'package:vehicles_app/models/token.dart';
 import 'package:vehicles_app/models/user.dart';
+import 'package:vehicles_app/models/vehicle.dart';
 import 'package:vehicles_app/models/vehicle_type.dart';
 import 'constans.dart';
 
 class ApiHelper {
+  static Future<Response> getVehicle(Token token, String id) async {
+    if (!_validToken(token)) {
+      return Response(isSuccess: false, message: 'Sus credenciales se han vencido, por favor cierre sesión y vuelva a ingresar al sistema.');
+    }
+
+    var url = Uri.parse('${Constans.apiUrl}/api/Vehicles/$id');
+    var response = await http.get(
+      url,
+      headers: {
+        'content-type' : 'application/json',
+        'accept' : 'application/json',
+        'authorization': 'bearer ${token.token}',
+      },
+    );
+
+    var body = response.body;
+    if (response.statusCode >= 400) {
+      return Response(isSuccess: false, message: body);
+    }
+
+    var decodedJson = jsonDecode(body);
+    return Response(isSuccess: true, result: Vehicle.fromJson(decodedJson));
+  }
+
+  static Future<Response> getHistory(Token token, String id) async {
+    if (!_validToken(token)) {
+      return Response(isSuccess: false, message: 'Sus credenciales se han vencido, por favor cierre sesión y vuelva a ingresar al sistema.');
+    }
+
+    var url = Uri.parse('${Constans.apiUrl}/api/Histories/$id');
+    var response = await http.get(
+      url,
+      headers: {
+        'content-type' : 'application/json',
+        'accept' : 'application/json',
+        'authorization': 'bearer ${token.token}',
+      },
+    );
+
+    var body = response.body;
+    if (response.statusCode >= 400) {
+      return Response(isSuccess: false, message: body);
+    }
+
+    var decodedJson = jsonDecode(body);
+    return Response(isSuccess: true, result: History.fromJson(decodedJson));
+  }
+
   static Future<Response> getProcedures(Token token) async {
     if (!_validToken(token)) {
       return Response(isSuccess: false, message: 'Sus credenciales se han vencido, por favor cierre sesión y vuelva a ingresar al sistema.');
