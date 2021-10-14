@@ -144,7 +144,7 @@ class _BrandScreenState extends State<BrandScreen> {
     return isValid;
   }
 
-  _addRecord() async {
+  void _addRecord() async {
     setState(() {
       _showLoader = true;
     });
@@ -194,7 +194,7 @@ class _BrandScreenState extends State<BrandScreen> {
     Navigator.pop(context, 'yes');
   }
 
-  _saveRecord() async {
+  void _saveRecord() async {
     setState(() {
       _showLoader = true;
     });
