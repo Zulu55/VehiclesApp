@@ -673,7 +673,7 @@ class _UserScreenState extends State<UserScreen> {
       return;
     }
 
-    Response response = await ApiHelper.getDocumentTypes(widget.token);
+    Response response = await ApiHelper.getDocumentTypes();
 
     setState(() {
       _showLoader = false;
