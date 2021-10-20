@@ -1,9 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:camera/camera.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -507,6 +508,174 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
   }
 
   void _register() async {
+    if (!_validateFields()) {
+      return;
+    }
 
+    _addRecord();
+  }
+
+  bool _validateFields() {
+    bool isValid = true;
+
+    if (_firstName.isEmpty) {
+      isValid = false;
+      _firstNameShowError = true;
+      _firstNameError = 'Debes ingresar al menos un nombre.';
+    } else {
+      _firstNameShowError = false;
+    }
+
+    if (_lastName.isEmpty) {
+      isValid = false;
+      _lastNameShowError = true;
+      _lastNameError = 'Debes ingresar al menos un apellido.';
+    } else {
+      _lastNameShowError = false;
+    }
+
+    if (_documentTypeId == 0) {
+      isValid = false;
+      _documentTypeIdShowError = true;
+      _documentTypeIdError = 'Debes seleccionar el tipo de documento.';
+    } else {
+      _documentTypeIdShowError = false;
+    }
+
+    if (_document.isEmpty) {
+      isValid = false;
+      _documentShowError = true;
+      _documentError = 'Debes ingresar el número de documento.';
+    } else {
+      _documentShowError = false;
+    }
+
+    if (_email.isEmpty) {
+      isValid = false;
+      _emailShowError = true;
+      _emailError = 'Debes ingresar un email.';
+    } else if (!EmailValidator.validate(_email)) {
+      isValid = false;
+      _emailShowError = true;
+      _emailError = 'Debes ingresar un email válido.';
+    } else {
+      _emailShowError = false;
+    }
+
+    if (_address.isEmpty) {
+      isValid = false;
+      _addressShowError = true;
+      _addressError = 'Debes ingresar una dirección.';
+    } else {
+      _addressShowError = false;
+    }
+
+    if (_phoneNumber.isEmpty) {
+      isValid = false;
+      _phoneNumberShowError = true;
+      _phoneNumberError = 'Debes ingresar un teléfono.';
+    } else {
+      _phoneNumberShowError = false;
+    }
+
+    if (_password.length < 6) {
+      isValid = false;
+      _passwordShowError = true;
+      _passwordError = 'Debes ingresar una contraseña de al menos 6 carácteres.';
+    } else {
+      _passwordShowError = false;
+    }
+
+    if (_confirm.length < 6) {
+      isValid = false;
+      _confirmShowError = true;
+      _confirmError = 'Debes ingresar una confirmación de contraseña de al menos 6 carácteres.';
+    } else {
+      _confirmShowError = false;
+    }
+
+    if (_confirm != _password) {
+      isValid = false;
+      _confirmShowError = true;
+      _confirmError = 'La contraseña y la confirmación, no son iguales.';
+    } else {
+      _confirmShowError = false;
+    }
+
+   setState(() { });
+    return isValid;
+  }
+
+  void _addRecord() async {
+    setState(() {
+      _showLoader = true;
+    });
+
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      setState(() {
+        _showLoader = false;
+      });
+      await showAlertDialog(
+        context: context,
+        title: 'Error', 
+        message: 'Verifica que estes conectado a internet.',
+        actions: <AlertDialogAction>[
+            AlertDialogAction(key: null, label: 'Aceptar'),
+        ]
+      );    
+      return;
+    }
+
+    String base64image = '';
+    if (_photoChanged) {
+      List<int> imageBytes = await _image.readAsBytes();
+      base64image = base64Encode(imageBytes);
+    }
+
+    Map<String, dynamic> request = {
+      'firstName': _firstName,
+      'lastName': _lastName,
+      'documentTypeId': _documentTypeId,
+      'document': _document,
+      'email': _email,
+      'userName': _email,
+      'address': _address,
+      'phoneNumber': _phoneNumber,
+      'image': base64image,
+      'password': _password,
+    };
+
+    Response response = await ApiHelper.postNoToken(
+      '/api/Account/', 
+      request, 
+    );
+
+    setState(() {
+      _showLoader = false;
+    });
+
+    if (!response.isSuccess) {
+      await showAlertDialog(
+        context: context,
+        title: 'Error', 
+        message: response.message,
+        actions: <AlertDialogAction>[
+            AlertDialogAction(key: null, label: 'Aceptar'),
+        ]
+      );    
+      return;
+    }
+
+    await showAlertDialog(
+      context: context,
+      title: 'Confirmación', 
+      message: 'Se ha envido un correo con las instrucciones para activar el usuario. Por favor activelo para poder ingresar a la aplicación.',
+      actions: <AlertDialogAction>[
+          AlertDialogAction(key: null, label: 'Aceptar'),
+      ]
+    );    
+
+    Navigator.pop(context, 'yes');
   }
 }

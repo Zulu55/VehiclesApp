@@ -276,6 +276,7 @@ class _UsersScreenState extends State<UsersScreen> {
       MaterialPageRoute(
         builder: (context) => UserScreen(
           token: widget.token, 
+          myProfile: false,
           user: User(
             firstName: '', 
             lastName: '', 

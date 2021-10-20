@@ -6,6 +6,7 @@ import 'package:vehicles_app/models/token.dart';
 import 'package:vehicles_app/screens/document_types_screen.dart';
 import 'package:vehicles_app/screens/login_screen.dart';
 import 'package:vehicles_app/screens/procedures_screen.dart';
+import 'package:vehicles_app/screens/user_screen.dart';
 import 'package:vehicles_app/screens/users_screen.dart';
 import 'package:vehicles_app/screens/vehicle_types_screen.dart';
 import 'brands_screen.dart';
@@ -147,7 +148,18 @@ class _HomeScreenState extends State<HomeScreen> {
           ListTile(
             leading: Icon(Icons.face),
             title: const Text('Editar Perfil'),
-            onTap: () { },
+            onTap: () { 
+              Navigator.push(
+                context, 
+                MaterialPageRoute(
+                  builder: (context) => UserScreen(
+                    token: widget.token, 
+                    user: widget.token.user, 
+                    myProfile: true,
+                  )
+                )
+              );
+            },
           ),
           ListTile(
             leading: Icon(Icons.logout),
@@ -181,7 +193,18 @@ class _HomeScreenState extends State<HomeScreen> {
           ListTile(
             leading: Icon(Icons.face),
             title: const Text('Editar Perfil'),
-            onTap: () { },
+            onTap: () { 
+              Navigator.push(
+                context, 
+                MaterialPageRoute(
+                  builder: (context) => UserScreen(
+                    token: widget.token, 
+                    user: widget.token.user, 
+                    myProfile: true,
+                  )
+                )
+              );
+            },
           ),
           ListTile(
             leading: Icon(Icons.logout),
