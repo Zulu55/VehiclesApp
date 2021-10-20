@@ -10,6 +10,7 @@ import 'package:vehicles_app/components/loader_component.dart';
 import 'package:vehicles_app/helpers/constans.dart';
 import 'package:vehicles_app/models/token.dart';
 import 'package:vehicles_app/screens/home_screen.dart';
+import 'package:vehicles_app/screens/register_user_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({ Key? key }) : super(key: key);
@@ -273,7 +274,7 @@ class _LoginScreenState extends State<LoginScreen> {
             }
           ),
         ),
-        onPressed: () {}, 
+        onPressed: () => _register(), 
       ),
     );
   }
@@ -282,5 +283,14 @@ class _LoginScreenState extends State<LoginScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isRemembered', true);
     await prefs.setString('userBody', body);
+  }
+
+  void _register() {
+    Navigator.push(
+      context, 
+      MaterialPageRoute(
+        builder: (context) => RegisterUserScreen()
+      )
+    );
   }
 }
