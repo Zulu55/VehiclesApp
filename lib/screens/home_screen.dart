@@ -35,38 +35,40 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _getBody() {
-    return Container(
-      margin: EdgeInsets.all(30),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(150),
-            child: CachedNetworkImage(
-              imageUrl: widget.token.user.imageFullPath,
-              errorWidget: (context, url, error) => Icon(Icons.error),
-              fit: BoxFit.cover,
-              height: 300,
-              width: 300,
-              placeholder: (context, url) => Image(
-                image: AssetImage('assets/vehicles_logo.png'),
+    return SingleChildScrollView(
+      child: Container(
+        margin: EdgeInsets.all(30),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(150),
+              child: CachedNetworkImage(
+                imageUrl: widget.token.user.imageFullPath,
+                errorWidget: (context, url, error) => Icon(Icons.error),
                 fit: BoxFit.cover,
                 height: 300,
                 width: 300,
-              ),
-            )
-          ),
-          SizedBox(height: 30,),
-          Center(
-            child: Text(
-              'Bienvenid@ ${widget.token.user.fullName}',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold
-              ),
+                placeholder: (context, url) => Image(
+                  image: AssetImage('assets/vehicles_logo.png'),
+                  fit: BoxFit.cover,
+                  height: 300,
+                  width: 300,
+                ),
+              )
             ),
-          )        
-        ],
+            SizedBox(height: 30,),
+            Center(
+              child: Text(
+                'Bienvenid@ ${widget.token.user.fullName}',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+            )        
+          ],
+        ),
       ),
     );
   }
