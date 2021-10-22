@@ -18,8 +18,9 @@ class VehicleInfoScreen extends StatefulWidget {
   final Token token;
   final User user;
   final Vehicle vehicle;
+  final bool isAdmin;
 
-  VehicleInfoScreen({required this.token, required this.user, required this.vehicle});
+  VehicleInfoScreen({required this.token, required this.user, required this.vehicle, required this.isAdmin});
 
   @override
   _VehicleInfoScreenState createState() => _VehicleInfoScreenState();
@@ -46,21 +47,23 @@ class _VehicleInfoScreenState extends State<VehicleInfoScreen> {
           ? LoaderComponent(text: 'Por favor espere...',) 
           : _getContent(),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => _goAddHistory(History(
-          date: '', 
-          dateLocal: '', 
-          details: [], 
-          detailsCount: 0, 
-          id: 0, 
-          mileage: 0, 
-          remarks: '', 
-          total: 0, 
-          totalLabor: 0, 
-          totalSpareParts: 0
-        )),
-      ),
+      floatingActionButton: widget.isAdmin 
+        ? FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () => _goAddHistory(History(
+              date: '', 
+              dateLocal: '', 
+              details: [], 
+              detailsCount: 0, 
+              id: 0, 
+              mileage: 0, 
+              remarks: '', 
+              total: 0, 
+              totalLabor: 0, 
+              totalSpareParts: 0
+            )),
+          )
+        : Container()
     );
   }
 
@@ -73,6 +76,7 @@ class _VehicleInfoScreenState extends State<VehicleInfoScreen> {
           user: widget.user, 
           vehicle: _vehicle, 
           history: history,
+          isAdmin: widget.isAdmin,
         ) 
       )
     );

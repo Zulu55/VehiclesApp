@@ -309,6 +309,7 @@ class _UsersScreenState extends State<UsersScreen> {
         builder: (context) => UserInfoScreen(
           token: widget.token, 
           user: user,
+          isAdmin: true,
         )
       )
     );
