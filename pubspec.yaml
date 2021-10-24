@@ -51,8 +51,8 @@ flutter_icons:
   image_path: "assets/ic_launcher.png"  
 
 flutter_native_splash:
-  image: "assets/ic_launcher.png"  
-  color: "ffffff"
+  image: "assets/vehicles_logo.png"  
+  color: "#FFEB3B"
 
 dev_dependencies:
   flutter_test:
