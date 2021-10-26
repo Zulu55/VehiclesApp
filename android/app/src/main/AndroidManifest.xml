@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zulusoftware.vehicles">
+    package="com.zulu.vehicles">
    <application
         android:label="Vehicles"
         android:icon="@mipmap/launcher_icon">

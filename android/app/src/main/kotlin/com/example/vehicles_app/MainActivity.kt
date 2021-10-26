@@ -1,4 +1,4 @@
-package com.zulusoftware.vehicles
+package com.zulu.vehicles
 
 import io.flutter.embedding.android.FlutterActivity
 
