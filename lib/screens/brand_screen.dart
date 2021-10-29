@@ -61,7 +61,6 @@ class _BrandScreenState extends State<BrandScreen> {
     return Container(
       padding: EdgeInsets.all(10),
       child: TextField(
-        autofocus: true,
         controller: _descriptionController,
         decoration: InputDecoration(
           hintText: 'Ingresa una descripción...',

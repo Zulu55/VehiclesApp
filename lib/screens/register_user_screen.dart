@@ -241,7 +241,6 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
     return Container(
       padding: EdgeInsets.all(10),
       child: TextField(
-        autofocus: true,
         controller: _firstNameController,
         decoration: InputDecoration(
           hintText: 'Ingresa nombres...',

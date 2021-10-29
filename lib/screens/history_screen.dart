@@ -73,7 +73,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return Container(
       padding: EdgeInsets.all(10),
       child: TextField(
-        autofocus: true,
         keyboardType: TextInputType.multiline,
         minLines: 4,
         maxLines: 4,

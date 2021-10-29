@@ -113,7 +113,6 @@ class _UserScreenState extends State<UserScreen> {
     return Container(
       padding: EdgeInsets.all(10),
       child: TextField(
-        autofocus: true,
         controller: _firstNameController,
         decoration: InputDecoration(
           hintText: 'Ingresa nombres...',

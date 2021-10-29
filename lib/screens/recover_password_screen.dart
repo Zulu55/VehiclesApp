@@ -45,7 +45,6 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
     return Container(
       padding: EdgeInsets.all(10),
       child: TextField(
-        autofocus: true,
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           hintText: 'Ingresa tu email...',

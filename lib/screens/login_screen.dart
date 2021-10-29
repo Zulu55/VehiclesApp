@@ -3,6 +3,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -37,6 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFFFEB3B),
       body: Stack(
         children: <Widget>[
           SingleChildScrollView(
@@ -72,9 +74,10 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container(
       padding: EdgeInsets.all(10),
       child: TextField(
-        autofocus: true,
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
+          fillColor: Colors.white,
+          filled: true,
           hintText: 'Ingresa tu email...',
           labelText: 'Email',
           errorText: _emailShowError ? _emailError : null,
@@ -97,6 +100,8 @@ class _LoginScreenState extends State<LoginScreen> {
       child: TextField(
         obscureText: !_passwordShow,
         decoration: InputDecoration(
+          fillColor: Colors.white,
+          filled: true,
           hintText: 'Ingresa tu contraseña...',
           labelText: 'Contraseña',
           errorText: _passwordShowError ? _passwordError : null,
@@ -135,12 +140,17 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _showButtons() {
     return Container(
       margin: EdgeInsets.only(left: 10, right: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          _showLoginButton(),
-          SizedBox(width: 20,),
-          _showRegisterButton(),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              _showLoginButton(),
+              SizedBox(width: 20,),
+              _showRegisterButton(),
+            ],
+          ),
+          _showGoogleLoginButton(),
         ],
       ),
     );
@@ -317,4 +327,27 @@ class _LoginScreenState extends State<LoginScreen> {
       )
     );
   }
+
+  Widget _showGoogleLoginButton() {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: ElevatedButton.icon(
+            onPressed: () => _loginGoogle(), 
+            icon: FaIcon(
+              FontAwesomeIcons.google,
+              color: Colors.red,
+            ), 
+            label: Text('Iniciar sesión con Google'),
+            style: ElevatedButton.styleFrom(
+              primary: Colors.white,
+              onPrimary: Colors.black
+            )
+          )
+        )
+      ],
+    );
+  }
+
+  _loginGoogle() {}
 }

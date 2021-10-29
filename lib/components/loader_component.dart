@@ -12,8 +12,9 @@ class LoaderComponent extends StatelessWidget {
         width: 200,
         height: 100,
         decoration: BoxDecoration(
-          color: Colors.yellow[300],
-          borderRadius: BorderRadius.circular(10)
+          color: Color(0xFFFFEB3B),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.black),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

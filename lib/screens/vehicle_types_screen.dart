@@ -174,7 +174,6 @@ class _VehicleTypesScreenState extends State<VehicleTypesScreen> {
               Text('Escriba las primeras letras del tipo de vehículo'),
               SizedBox(height: 10,),
               TextField(
-                autofocus: true,
                 decoration: InputDecoration(
                   hintText: 'Criterio de búsqueda...',
                   labelText: 'Buscar',
