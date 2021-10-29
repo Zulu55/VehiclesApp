@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "703635462208",
+    "project_id": "vehicles-82cf8",
+    "storage_bucket": "vehicles-82cf8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:703635462208:android:30a1476be4dc599062a7a5",
+        "android_client_info": {
+          "package_name": "com.zulusoftware.vehicles"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "703635462208-k3pg1olpqj1udtmf0v0o5shla0d4367h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zulusoftware.vehicles",
+            "certificate_hash": "1224a1176e43366e713c2c664231696a879939d6"
+          }
+        },
+        {
+          "client_id": "703635462208-mebo1g879ht9nbrjn5be9q544s17p3t5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4BCon633IdZ6UtcRj2a4RyA4hoPcBauw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "703635462208-mebo1g879ht9nbrjn5be9q544s17p3t5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

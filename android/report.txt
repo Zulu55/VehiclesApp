@@ -1,0 +1,375 @@
+
+> Configure project :flutter_plugin_android_lifecycle
+WARNING: The option setting 'android.enableR8=true' is deprecated.
+It will be removed in version 5.0 of the Android Gradle plugin.
+You will no longer be able to disable R8
+
+> Task :app:signingReport
+Variant: debug
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: release
+Config: release
+Store: C:\Users\juan.zuluaga\Desktop\Flutter\vehicles_app\keys\key.jks
+Alias: sd
+Error: Failed to read key sd from store "C:\Users\juan.zuluaga\Desktop\Flutter\vehicles_app\keys\key.jks": Invalid keystore format
+----------
+Variant: profile
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: debugUnitTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: releaseUnitTest
+Config: release
+Store: C:\Users\juan.zuluaga\Desktop\Flutter\vehicles_app\keys\key.jks
+Alias: sd
+Error: Failed to read key sd from store "C:\Users\juan.zuluaga\Desktop\Flutter\vehicles_app\keys\key.jks": Invalid keystore format
+----------
+Variant: profileUnitTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+
+> Task :camera:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: debugUnitTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: releaseUnitTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: profileUnitTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+
+> Task :connectivity:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: debugUnitTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: releaseUnitTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: profileUnitTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+
+> Task :flutter_plugin_android_lifecycle:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: debugUnitTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: releaseUnitTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: profileUnitTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+
+> Task :image_picker:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: debugUnitTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: releaseUnitTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: profileUnitTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+
+> Task :path_provider:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: debugUnitTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: releaseUnitTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: profileUnitTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+
+> Task :shared_preferences:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: debugUnitTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: releaseUnitTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: profileUnitTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+
+> Task :sqflite:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: debugUnitTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: releaseUnitTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: profileUnitTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+
+> Task :url_launcher:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: debugUnitTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: releaseUnitTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+Variant: profileUnitTest
+Config: debug
+Store: C:\Users\juan.zuluaga\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 81:40:1B:26:9B:79:62:11:C7:EE:DA:04:45:33:5B:D7
+SHA1: 12:24:A1:17:6E:43:36:6E:71:3C:2C:66:42:31:69:6A:87:99:39:D6
+SHA-256: D5:C3:BE:F8:64:23:CA:3A:FD:55:50:83:CE:87:40:3B:8A:54:CF:58:0B:E3:99:E9:BC:AC:A2:14:5D:33:7E:6B
+Valid until: Tuesday, August 15, 2051
+----------
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 7.0.
+Use '--warning-mode all' to show the individual deprecation warnings.
+See https://docs.gradle.org/6.7/userguide/command_line_interface.html#sec:command_line_warnings
+
+BUILD SUCCESSFUL in 4s
+9 actionable tasks: 9 executed
