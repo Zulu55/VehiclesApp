@@ -286,6 +286,7 @@ class _UsersScreenState extends State<UsersScreen> {
             imageId: '', 
             imageFullPath: '', 
             userType: 1, 
+            loginType: 0, 
             fullName: '', 
             vehicles: [], 
             vehiclesCount: 0, 

@@ -114,6 +114,7 @@ class _UserScreenState extends State<UserScreen> {
       padding: EdgeInsets.all(10),
       child: TextField(
         autofocus: true,
+        enabled: widget.user.loginType == 0,
         controller: _firstNameController,
         decoration: InputDecoration(
           hintText: 'Ingresa nombres...',
@@ -538,6 +539,7 @@ class _UserScreenState extends State<UserScreen> {
     return Container(
       padding: EdgeInsets.all(10),
       child: TextField(
+        enabled: widget.user.loginType == 0,
         controller: _lastNameController,
         decoration: InputDecoration(
           hintText: 'Ingresa apellidos...',
@@ -731,6 +733,11 @@ class _UserScreenState extends State<UserScreen> {
   }
 
   void _takePicture() async {
+    if (widget.user.loginType != 0) {
+      _messageNetSocialUser();
+      return;
+    }
+
     WidgetsFlutterBinding.ensureInitialized();
     final cameras = await availableCameras();
     final firstCamera = cameras.first;
@@ -749,6 +756,11 @@ class _UserScreenState extends State<UserScreen> {
   }
 
   void _selectPicture() async {
+    if (widget.user.loginType != 0) {
+      _messageNetSocialUser();
+      return;
+    }
+
     final ImagePicker _picker = ImagePicker();
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
@@ -782,6 +794,11 @@ class _UserScreenState extends State<UserScreen> {
   }
 
   void _changePassword() {
+    if (widget.user.loginType != 0) {
+      _messageNetSocialUser();
+      return;
+    }
+
     Navigator.push(
       context, 
       MaterialPageRoute(
@@ -790,5 +807,16 @@ class _UserScreenState extends State<UserScreen> {
         )
       )
     );
+  }
+
+  void _messageNetSocialUser() async {
+    await showAlertDialog(
+      context: context,
+      title: 'Error', 
+      message: 'Como es un usuario logueado por red social, debe realizar esta operación en la red social.',
+      actions: <AlertDialogAction>[
+          AlertDialogAction(key: null, label: 'Aceptar'),
+      ]
+    );    
   }
 }
