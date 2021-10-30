@@ -356,7 +356,16 @@ class _LoginScreenState extends State<LoginScreen> {
     var googleSignIn = GoogleSignIn();
     await googleSignIn.signOut();
     var user = await googleSignIn.signIn();
-    print(user);
+
+    Map<String, dynamic> request = {
+      'email': user?.email,
+      'id': user?.id,
+      'loginType': 1,
+      'fullName': user?.displayName,
+      'photoURL': user?.photoUrl,
+    };
+
+    await _socialLogin(request);
   }
 
   Widget _showFacebookLoginButton() {
@@ -389,7 +398,64 @@ class _LoginScreenState extends State<LoginScreen> {
       final requestData = await FacebookAuth.i.getUserData(
         fields: "email, name, picture.width(800).heigth(800), first_name, last_name",
       );
-      print(requestData);
+
+      var picture = requestData['picture'];
+      var data = picture['data'];
+
+      Map<String, dynamic> request = {
+        'email': requestData['email'],
+        'id': requestData['id'],
+        'loginType': 2,
+        'fullName': requestData['name'],
+        'photoURL': data['url'],
+        'firtsName': requestData['first_name'],
+        'lastName': requestData['last_name'],
+      };
+
+      await _socialLogin(request);
     }
+  }
+
+  Future _socialLogin(Map<String, dynamic> request) async {
+    var url = Uri.parse('${Constans.apiUrl}/api/Account/SocialLogin');
+    var response = await http.post(
+      url,
+      headers: {
+        'content-type' : 'application/json',
+        'accept' : 'application/json',
+      },
+      body: jsonEncode(request),
+    );
+
+    setState(() {
+      _showLoader = false;
+    });
+
+    if(response.statusCode >= 400) {
+      await showAlertDialog(
+        context: context,
+        title: 'Error', 
+        message: 'El usuario ya inció sesión previamente por email o por otra red social.',
+        actions: <AlertDialogAction>[
+            AlertDialogAction(key: null, label: 'Aceptar'),
+        ]
+      );    
+      return;
+    }
+
+    var body = response.body;
+
+    if (_rememberme) {
+      _storeUser(body);
+    }
+
+    var decodedJson = jsonDecode(body);
+    var token = Token.fromJson(decodedJson);
+    Navigator.pushReplacement(
+      context, 
+      MaterialPageRoute(
+        builder: (context) => HomeScreen(token: token,)
+      )
+    );
   }
 }
