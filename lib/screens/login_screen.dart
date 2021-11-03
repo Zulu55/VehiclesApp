@@ -356,7 +356,6 @@ class _LoginScreenState extends State<LoginScreen> {
     var googleSignIn = GoogleSignIn();
     await googleSignIn.signOut();
     var user = await googleSignIn.signIn();
-
     Map<String, dynamic> request = {
       'email': user?.email,
       'id': user?.id,
@@ -390,7 +389,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _loginFacebook() async {
-    await FacebookAuth.i.login();
+    await FacebookAuth.i.logOut();
     var result = await FacebookAuth.i.login(
       permissions: ["public_profile", "email"],
     );

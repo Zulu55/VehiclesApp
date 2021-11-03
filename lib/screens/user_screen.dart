@@ -730,6 +730,11 @@ class _UserScreenState extends State<UserScreen> {
   }
 
   void _takePicture() async {
+    if (widget.user.loginType != 0) {
+      _validateUserSocial();
+      return;
+    }
+
     WidgetsFlutterBinding.ensureInitialized();
     final cameras = await availableCameras();
     final firstCamera = cameras.first;
@@ -748,6 +753,11 @@ class _UserScreenState extends State<UserScreen> {
   }
 
   void _selectPicture() async {
+    if (widget.user.loginType != 0) {
+      _validateUserSocial();
+      return;
+    }
+
     final ImagePicker _picker = ImagePicker();
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
@@ -781,6 +791,11 @@ class _UserScreenState extends State<UserScreen> {
   }
 
   void _changePassword() {
+    if (widget.user.loginType != 0) {
+      _validateUserSocial();
+      return;
+    }
+
     Navigator.push(
       context, 
       MaterialPageRoute(
@@ -789,5 +804,16 @@ class _UserScreenState extends State<UserScreen> {
         )
       )
     );
+  }
+
+  void _validateUserSocial() async {
+      await showAlertDialog(
+        context: context,
+        title: 'Error', 
+        message: 'Debes de realizar esta operación por la red social con la que iniciaste sesión.',
+        actions: <AlertDialogAction>[
+            AlertDialogAction(key: null, label: 'Aceptar'),
+        ]
+      );    
   }
 }
