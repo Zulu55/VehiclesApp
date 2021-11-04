@@ -18,10 +18,7 @@ Variant: release
 Config: release
 Store: C:\Users\juan.zuluaga\Desktop\Flutter\vehicles_app\keys\key.jks
 Alias: sd
-MD5: 86:9C:50:F9:0E:4A:5A:5B:33:4E:59:F1:80:52:3F:EC
-SHA1: 71:AC:CE:F3:B3:FE:53:BE:C5:8C:33:F0:40:75:C8:3E:3A:77:4F:1A
-SHA-256: B9:E9:65:FF:E2:C3:9B:DD:10:BD:4F:6E:CD:E9:C5:D8:8A:BC:25:90:8D:5C:A0:E4:D3:95:22:60:09:32:73:41
-Valid until: Friday, March 12, 2049
+Error: Failed to read key sd from store "C:\Users\juan.zuluaga\Desktop\Flutter\vehicles_app\keys\key.jks": Invalid keystore format
 ----------
 Variant: profile
 Config: debug
@@ -54,10 +51,7 @@ Variant: releaseUnitTest
 Config: release
 Store: C:\Users\juan.zuluaga\Desktop\Flutter\vehicles_app\keys\key.jks
 Alias: sd
-MD5: 86:9C:50:F9:0E:4A:5A:5B:33:4E:59:F1:80:52:3F:EC
-SHA1: 71:AC:CE:F3:B3:FE:53:BE:C5:8C:33:F0:40:75:C8:3E:3A:77:4F:1A
-SHA-256: B9:E9:65:FF:E2:C3:9B:DD:10:BD:4F:6E:CD:E9:C5:D8:8A:BC:25:90:8D:5C:A0:E4:D3:95:22:60:09:32:73:41
-Valid until: Friday, March 12, 2049
+Error: Failed to read key sd from store "C:\Users\juan.zuluaga\Desktop\Flutter\vehicles_app\keys\key.jks": Invalid keystore format
 ----------
 Variant: profileUnitTest
 Config: debug

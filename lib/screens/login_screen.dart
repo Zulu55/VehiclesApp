@@ -346,27 +346,22 @@ class _LoginScreenState extends State<LoginScreen> {
               primary: Colors.white,
               onPrimary: Colors.black
             )
-          ),
-        ),
+          )
+        )
       ],
     );
   }
 
   void _loginGoogle() async {
-    setState(() {
-      _showLoader = true;
-    });
-
     var googleSignIn = GoogleSignIn();
     await googleSignIn.signOut();
     var user = await googleSignIn.signIn();
-
     Map<String, dynamic> request = {
       'email': user?.email,
       'id': user?.id,
       'loginType': 1,
       'fullName': user?.displayName,
-      'photoUrl': user?.photoUrl,
+      'photoURL': user?.photoUrl,
     };
 
     await _socialLogin(request);
@@ -382,32 +377,25 @@ class _LoginScreenState extends State<LoginScreen> {
               FontAwesomeIcons.facebook,
               color: Colors.white,
             ), 
-            label: Text(
-              'Iniciar sesión con Facebook', 
-              style: TextStyle(color: Colors.white),
-            ),
+            label: Text('Iniciar sesión con Facebook'),
             style: ElevatedButton.styleFrom(
               primary: Color(0xFF3B5998),
-              onPrimary: Colors.black
+              onPrimary: Colors.white
             )
-          ),
-        ),
+          )
+        )
       ],
     );
   }
 
-  Future _loginFacebook() async {
-    setState(() {
-      _showLoader = true;
-    });
-
+  void _loginFacebook() async {
     await FacebookAuth.i.logOut();
     var result = await FacebookAuth.i.login(
       permissions: ["public_profile", "email"],
     );
     if (result.status == LoginStatus.success) {
       final requestData = await FacebookAuth.i.getUserData(
-        fields: "email, name, picture.width(800).height(800), first_name, last_name",
+        fields: "email, name, picture.width(800).heigth(800), first_name, last_name",
       );
 
       var picture = requestData['picture'];
@@ -418,9 +406,9 @@ class _LoginScreenState extends State<LoginScreen> {
         'id': requestData['id'],
         'loginType': 2,
         'fullName': requestData['name'],
-        'firstName': requestData['first_name'],
+        'photoURL': data['url'],
+        'firtsName': requestData['first_name'],
         'lastName': requestData['last_name'],
-        'photoUrl': data['url'],
       };
 
       await _socialLogin(request);
@@ -429,14 +417,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future _socialLogin(Map<String, dynamic> request) async {
     var url = Uri.parse('${Constans.apiUrl}/api/Account/SocialLogin');
-    var jsonRequest = jsonEncode(request);
     var response = await http.post(
       url,
       headers: {
         'content-type' : 'application/json',
         'accept' : 'application/json',
       },
-      body: jsonRequest,
+      body: jsonEncode(request),
     );
 
     setState(() {
@@ -447,7 +434,7 @@ class _LoginScreenState extends State<LoginScreen> {
       await showAlertDialog(
         context: context,
         title: 'Error', 
-        message: 'Hubo un problema al tratar de logearse con la red social. Posiblemente el usuario ya tiene registrado el email como una cuenta de la aplicación o se conecto con otra red social.',
+        message: 'El usuario ya inció sesión previamente por email o por otra red social.',
         actions: <AlertDialogAction>[
             AlertDialogAction(key: null, label: 'Aceptar'),
         ]

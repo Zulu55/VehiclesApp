@@ -113,8 +113,6 @@ class _UserScreenState extends State<UserScreen> {
     return Container(
       padding: EdgeInsets.all(10),
       child: TextField(
-        autofocus: true,
-        enabled: widget.user.loginType == 0,
         controller: _firstNameController,
         decoration: InputDecoration(
           hintText: 'Ingresa nombres...',
@@ -539,7 +537,6 @@ class _UserScreenState extends State<UserScreen> {
     return Container(
       padding: EdgeInsets.all(10),
       child: TextField(
-        enabled: widget.user.loginType == 0,
         controller: _lastNameController,
         decoration: InputDecoration(
           hintText: 'Ingresa apellidos...',
@@ -734,7 +731,7 @@ class _UserScreenState extends State<UserScreen> {
 
   void _takePicture() async {
     if (widget.user.loginType != 0) {
-      _messageNetSocialUser();
+      _validateUserSocial();
       return;
     }
 
@@ -757,7 +754,7 @@ class _UserScreenState extends State<UserScreen> {
 
   void _selectPicture() async {
     if (widget.user.loginType != 0) {
-      _messageNetSocialUser();
+      _validateUserSocial();
       return;
     }
 
@@ -795,7 +792,7 @@ class _UserScreenState extends State<UserScreen> {
 
   void _changePassword() {
     if (widget.user.loginType != 0) {
-      _messageNetSocialUser();
+      _validateUserSocial();
       return;
     }
 
@@ -809,14 +806,14 @@ class _UserScreenState extends State<UserScreen> {
     );
   }
 
-  void _messageNetSocialUser() async {
-    await showAlertDialog(
-      context: context,
-      title: 'Error', 
-      message: 'Como es un usuario logueado por red social, debe realizar esta operación en la red social.',
-      actions: <AlertDialogAction>[
-          AlertDialogAction(key: null, label: 'Aceptar'),
-      ]
-    );    
+  void _validateUserSocial() async {
+      await showAlertDialog(
+        context: context,
+        title: 'Error', 
+        message: 'Debes de realizar esta operación por la red social con la que iniciaste sesión.',
+        actions: <AlertDialogAction>[
+            AlertDialogAction(key: null, label: 'Aceptar'),
+        ]
+      );    
   }
 }

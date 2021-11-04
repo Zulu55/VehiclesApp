@@ -186,7 +186,6 @@ class _ProceduresScreenState extends State<ProceduresScreen> {
               Text('Escriba las primeras letras del procedimiento'),
               SizedBox(height: 10,),
               TextField(
-                autofocus: true,
                 decoration: InputDecoration(
                   hintText: 'Criterio de búsqueda...',
                   labelText: 'Buscar',

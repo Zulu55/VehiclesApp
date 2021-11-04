@@ -174,7 +174,6 @@ class _BrandsScreenState extends State<BrandsScreen> {
               Text('Escriba las primeras letras de la marca'),
               SizedBox(height: 10,),
               TextField(
-                autofocus: true,
                 decoration: InputDecoration(
                   hintText: 'Criterio de búsqueda...',
                   labelText: 'Buscar',

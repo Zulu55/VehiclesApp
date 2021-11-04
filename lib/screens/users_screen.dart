@@ -217,7 +217,6 @@ class _UsersScreenState extends State<UsersScreen> {
               Text('Escriba las primeras letras del nombre o apellidos del usuario'),
               SizedBox(height: 10,),
               TextField(
-                autofocus: true,
                 decoration: InputDecoration(
                   hintText: 'Criterio de búsqueda...',
                   labelText: 'Buscar',
