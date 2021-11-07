@@ -180,7 +180,7 @@ class _UsersScreenState extends State<UsersScreen> {
                                 ),
                                 SizedBox(height: 5,),
                                 Text(
-                                  e.phoneNumber, 
+                                  '${e.countryCode} ${e.phoneNumber}', 
                                   style: TextStyle(
                                     fontSize: 14,
                                   ),
@@ -292,6 +292,7 @@ class _UsersScreenState extends State<UsersScreen> {
             id: '', 
             userName: '', 
             email: '', 
+            countryCode: '57',
             phoneNumber: ''
           ),
         )
