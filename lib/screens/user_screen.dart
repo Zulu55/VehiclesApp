@@ -5,6 +5,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:camera/camera.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:country_picker/country_picker.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -33,6 +34,8 @@ class _UserScreenState extends State<UserScreen> {
   bool _showLoader = false;
   bool _photoChanged = false;
   late XFile _image;
+  String _countryName = '';
+  String _countryCode = '';
 
   String _firstName = '';
   String _firstNameError = '';
@@ -98,6 +101,7 @@ class _UserScreenState extends State<UserScreen> {
                 _showDocument(),
                 _showEmail(),
                 _showAddress(),
+                _showCountry(),
                 _showPhoneNumber(),
                 _showButtons(),
               ],
@@ -296,6 +300,7 @@ class _UserScreenState extends State<UserScreen> {
       'email': _email,
       'userName': _email,
       'address': _address,
+      'countryCode': _countryCode,
       'phoneNumber': _phoneNumber,
       'image': base64image,
     };
@@ -361,6 +366,7 @@ class _UserScreenState extends State<UserScreen> {
       'email': _email,
       'userName': _email,
       'address': _address,
+      'countryCode': _countryCode,
       'phoneNumber': _phoneNumber,
       'image': base64image,
     };
@@ -788,6 +794,13 @@ class _UserScreenState extends State<UserScreen> {
 
     _phoneNumber = widget.user.phoneNumber;
     _phoneNumberController.text = _phoneNumber;
+
+    setState(() {
+      _countryCode = widget.user.countryCode;
+      if (_countryCode == '57') {
+        _countryName = 'Colombia (CO)';
+      }
+    });
   }
 
   void _changePassword() {
@@ -807,13 +820,48 @@ class _UserScreenState extends State<UserScreen> {
   }
 
   void _validateUserSocial() async {
-      await showAlertDialog(
-        context: context,
-        title: 'Error', 
-        message: 'Debes de realizar esta operación por la red social con la que iniciaste sesión.',
-        actions: <AlertDialogAction>[
-            AlertDialogAction(key: null, label: 'Aceptar'),
-        ]
-      );    
+    await showAlertDialog(
+      context: context,
+      title: 'Error', 
+      message: 'Debes de realizar esta operación por la red social con la que iniciaste sesión.',
+      actions: <AlertDialogAction>[
+          AlertDialogAction(key: null, label: 'Aceptar'),
+      ]
+    );    
+  }
+
+  Widget _showCountry() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      child: Row(
+        children: <Widget>[
+          ElevatedButton(
+            child: Text('Seleccionar País'),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                (Set<MaterialState> states) {
+                  return Color(0xFFE03B8B);
+                }
+              ),
+            ),
+            onPressed: () => _selectCountry(), 
+          ),
+          SizedBox(width: 10,),
+          Text('$_countryCode $_countryName'),
+        ],
+      ),
+    );
+  }
+
+  void _selectCountry() {
+    showCountryPicker(
+      context: context,
+      onSelect: (Country country) {
+        setState(() {
+          _countryName = country.displayNameNoCountryCode;
+          _countryCode = country.phoneCode;
+        });
+      },
+    );  
   }
 }

@@ -284,13 +284,14 @@ class ApiHelper {
   static Future<Response> postNoToken(String controller, Map<String, dynamic> request) async {
     
     var url = Uri.parse('${Constans.apiUrl}$controller');
+    var body = jsonEncode(request);
     var response = await http.post(
       url,
       headers: {
         'content-type' : 'application/json',
         'accept' : 'application/json',
       },
-      body: jsonEncode(request),
+      body: body,
     );
 
     if (response.statusCode >= 400) {
