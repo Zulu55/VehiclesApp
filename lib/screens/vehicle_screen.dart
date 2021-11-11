@@ -224,7 +224,7 @@ class _VehicleScreenState extends State<VehicleScreen> {
   Widget _showBrand() {
     return Container(
       padding: EdgeInsets.all(10),
-      child: _vehicleTypes.length == 0 
+      child: _brands.length == 0 
         ? Text('Cargando marcas de vehículos...')
         : DropdownButtonFormField(
             items: _getComboBrands(),
