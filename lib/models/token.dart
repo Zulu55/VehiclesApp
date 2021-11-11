@@ -18,6 +18,7 @@ class Token {
     id: '', 
     userName: '', 
     email: '', 
+    countryCode: '57',
     phoneNumber: '', 
     vehicles: [], 
     vehiclesCount: 0
