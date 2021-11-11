@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:camera/camera.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:country_picker/country_picker.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -15,7 +16,7 @@ import 'package:vehicles_app/models/response.dart';
 import 'package:vehicles_app/screens/take_picture_screen.dart';
 
 class RegisterUserScreen extends StatefulWidget {
-  const RegisterUserScreen({ Key? key }) : super(key: key);
+  const RegisterUserScreen({Key? key}) : super(key: key);
 
   @override
   _RegisterUserScreenState createState() => _RegisterUserScreenState();
@@ -26,6 +27,8 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
   bool _passwordShow = false;
   bool _photoChanged = false;
   late XFile _image;
+  String _countryName = 'Colombia (CO)';
+  String _countryCode = '57';
 
   String _firstName = '';
   String _firstNameError = '';
@@ -96,6 +99,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                 _showDocument(),
                 _showEmail(),
                 _showAddress(),
+                _showCountry(),
                 _showPhoneNumber(),
                 _showPassword(),
                 _showConfirm(),
@@ -103,7 +107,11 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
               ],
             ),
           ),
-          _showLoader ? LoaderComponent(text: 'Por favor espere...',) : Container(),
+          _showLoader
+              ? LoaderComponent(
+                  text: 'Por favor espere...',
+                )
+              : Container(),
         ],
       ),
     );
@@ -120,13 +128,12 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
         _showLoader = false;
       });
       await showAlertDialog(
-        context: context,
-        title: 'Error', 
-        message: 'Verifica que estes conectado a internet.',
-        actions: <AlertDialogAction>[
+          context: context,
+          title: 'Error',
+          message: 'Verifica que estes conectado a internet.',
+          actions: <AlertDialogAction>[
             AlertDialogAction(key: null, label: 'Aceptar'),
-        ]
-      );    
+          ]);
       return;
     }
 
@@ -138,13 +145,12 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
 
     if (!response.isSuccess) {
       await showAlertDialog(
-        context: context,
-        title: 'Error', 
-        message: response.message,
-        actions: <AlertDialogAction>[
+          context: context,
+          title: 'Error',
+          message: response.message,
+          actions: <AlertDialogAction>[
             AlertDialogAction(key: null, label: 'Aceptar'),
-        ]
-      );    
+          ]);
       return;
     }
 
@@ -155,13 +161,13 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
 
   List<DropdownMenuItem<int>> _getComboDocumentTypes() {
     List<DropdownMenuItem<int>> list = [];
-    
+
     list.add(DropdownMenuItem(
       child: Text('Seleccione un tipo de documento...'),
       value: 0,
     ));
 
-    _documentTypes.forEach((documnentType) { 
+    _documentTypes.forEach((documnentType) {
       list.add(DropdownMenuItem(
         child: Text(documnentType.description),
         value: documnentType.id,
@@ -172,17 +178,16 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
   }
 
   Widget _showPhoto() {
-    return Stack(
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(top: 10),
-          child: !_photoChanged
+    return Stack(children: <Widget>[
+      Container(
+        margin: EdgeInsets.only(top: 10),
+        child: !_photoChanged
             ? Image(
                 image: AssetImage('assets/noimage.png'),
                 height: 160,
                 width: 160,
                 fit: BoxFit.cover,
-              ) 
+              )
             : ClipRRect(
                 borderRadius: BorderRadius.circular(80),
                 child: Image.file(
@@ -190,10 +195,9 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                   height: 160,
                   width: 160,
                   fit: BoxFit.cover,
-                ) 
-              ),        
-        ),
-        Positioned(
+                )),
+      ),
+      Positioned(
           bottom: 0,
           left: 100,
           child: InkWell(
@@ -211,9 +215,8 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                 ),
               ),
             ),
-          )
-        ),
-        Positioned(
+          )),
+      Positioned(
           bottom: 0,
           left: 0,
           child: InkWell(
@@ -231,10 +234,8 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                 ),
               ),
             ),
-          )
-        ),
-      ] 
-    );
+          )),
+    ]);
   }
 
   Widget _showFirstName() {
@@ -247,9 +248,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
           labelText: 'Nombres',
           errorText: _firstNameShowError ? _firstNameError : null,
           suffixIcon: Icon(Icons.person),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10)
-          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         ),
         onChanged: (value) {
           _firstName = value;
@@ -268,9 +267,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
           labelText: 'Apellidos',
           errorText: _lastNameShowError ? _lastNameError : null,
           suffixIcon: Icon(Icons.person),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10)
-          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         ),
         onChanged: (value) {
           _lastName = value;
@@ -281,27 +278,26 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
 
   Widget _showDocumentType() {
     return Container(
-      padding: EdgeInsets.all(10),
-      child: _documentTypes.length == 0 
-        ? Text('Cargando tipos de documentos...')
-        : DropdownButtonFormField(
-            items: _getComboDocumentTypes(),
-            value: _documentTypeId,
-            onChanged: (option) {
-              setState(() {
-                _documentTypeId = option as int;
-              });
-            },
-            decoration: InputDecoration(
-              hintText: 'Seleccione un tipo de documento...',
-              labelText: 'Tipo documento',
-              errorText: _documentTypeIdShowError ? _documentTypeIdError : null,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10)
-              ),
-            ),
-          )
-    );
+        padding: EdgeInsets.all(10),
+        child: _documentTypes.length == 0
+            ? Text('Cargando tipos de documentos...')
+            : DropdownButtonFormField(
+                items: _getComboDocumentTypes(),
+                value: _documentTypeId,
+                onChanged: (option) {
+                  setState(() {
+                    _documentTypeId = option as int;
+                  });
+                },
+                decoration: InputDecoration(
+                  hintText: 'Seleccione un tipo de documento...',
+                  labelText: 'Tipo documento',
+                  errorText:
+                      _documentTypeIdShowError ? _documentTypeIdError : null,
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                ),
+              ));
   }
 
   Widget _showDocument() {
@@ -314,9 +310,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
           labelText: 'Documento',
           errorText: _documentShowError ? _documentError : null,
           suffixIcon: Icon(Icons.assignment_ind),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10)
-          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         ),
         onChanged: (value) {
           _document = value;
@@ -336,9 +330,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
           labelText: 'Email',
           errorText: _emailShowError ? _emailError : null,
           suffixIcon: Icon(Icons.email),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10)
-          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         ),
         onChanged: (value) {
           _email = value;
@@ -358,9 +350,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
           labelText: 'Dirección',
           errorText: _addressShowError ? _addressError : null,
           suffixIcon: Icon(Icons.home),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10)
-          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         ),
         onChanged: (value) {
           _address = value;
@@ -380,9 +370,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
           labelText: 'Teléfono',
           errorText: _phoneNumberShowError ? _phoneNumberError : null,
           suffixIcon: Icon(Icons.phone),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10)
-          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         ),
         onChanged: (value) {
           _phoneNumber = value;
@@ -402,16 +390,16 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
           errorText: _passwordShowError ? _passwordError : null,
           prefixIcon: Icon(Icons.lock),
           suffixIcon: IconButton(
-            icon: _passwordShow ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
+            icon: _passwordShow
+                ? Icon(Icons.visibility)
+                : Icon(Icons.visibility_off),
             onPressed: () {
               setState(() {
                 _passwordShow = !_passwordShow;
               });
-            }, 
+            },
           ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10)
-          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         ),
         onChanged: (value) {
           _password = value;
@@ -431,16 +419,16 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
           errorText: _confirmShowError ? _confirmError : null,
           prefixIcon: Icon(Icons.lock),
           suffixIcon: IconButton(
-            icon: _passwordShow ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
+            icon: _passwordShow
+                ? Icon(Icons.visibility)
+                : Icon(Icons.visibility_off),
             onPressed: () {
               setState(() {
                 _passwordShow = !_passwordShow;
               });
-            }, 
+            },
           ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10)
-          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         ),
         onChanged: (value) {
           _confirm = value;
@@ -448,7 +436,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
       ),
     );
   }
-  
+
   Widget _showButtons() {
     return Container(
       margin: EdgeInsets.only(left: 10, right: 10),
@@ -473,27 +461,24 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
           AlertDialogAction(key: 'front', label: 'Delantera'),
           AlertDialogAction(key: 'back', label: 'Trasera'),
           AlertDialogAction(key: 'cancel', label: 'Cancelar'),
-        ]
-    );
- 
+        ]);
+
     if (responseCamera == 'cancel') {
       return;
     }
- 
+
     if (responseCamera == 'back') {
       camera = cameras.first;
     }
- 
+
     if (responseCamera == 'front') {
       camera = cameras.last;
     }
- 
+
     Response? response = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => TakePictureScreen(camera: camera)
-      )
-    );
+        context,
+        MaterialPageRoute(
+            builder: (context) => TakePictureScreen(camera: camera)));
     if (response != null) {
       setState(() {
         _photoChanged = true;
@@ -519,12 +504,11 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
         child: Text('Registrar Usuario'),
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.resolveWith<Color>(
-            (Set<MaterialState> states) {
-              return Color(0xFF120E43);
-            }
-          ),
+              (Set<MaterialState> states) {
+            return Color(0xFF120E43);
+          }),
         ),
-        onPressed: () => _register(), 
+        onPressed: () => _register(),
       ),
     );
   }
@@ -603,7 +587,8 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
     if (_password.length < 6) {
       isValid = false;
       _passwordShowError = true;
-      _passwordError = 'Debes ingresar una contraseña de al menos 6 carácteres.';
+      _passwordError =
+          'Debes ingresar una contraseña de al menos 6 carácteres.';
     } else {
       _passwordShowError = false;
     }
@@ -611,7 +596,8 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
     if (_confirm.length < 6) {
       isValid = false;
       _confirmShowError = true;
-      _confirmError = 'Debes ingresar una confirmación de contraseña de al menos 6 carácteres.';
+      _confirmError =
+          'Debes ingresar una confirmación de contraseña de al menos 6 carácteres.';
     } else {
       _confirmShowError = false;
     }
@@ -624,7 +610,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
       _confirmShowError = false;
     }
 
-   setState(() { });
+    setState(() {});
     return isValid;
   }
 
@@ -639,13 +625,12 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
         _showLoader = false;
       });
       await showAlertDialog(
-        context: context,
-        title: 'Error', 
-        message: 'Verifica que estes conectado a internet.',
-        actions: <AlertDialogAction>[
+          context: context,
+          title: 'Error',
+          message: 'Verifica que estes conectado a internet.',
+          actions: <AlertDialogAction>[
             AlertDialogAction(key: null, label: 'Aceptar'),
-        ]
-      );    
+          ]);
       return;
     }
 
@@ -663,14 +648,15 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
       'email': _email,
       'userName': _email,
       'address': _address,
+      'countryCode': _countryCode,
       'phoneNumber': _phoneNumber,
       'image': base64image,
       'password': _password,
     };
 
     Response response = await ApiHelper.postNoToken(
-      '/api/Account/', 
-      request, 
+      '/api/Account/',
+      request,
     );
 
     setState(() {
@@ -679,25 +665,60 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
 
     if (!response.isSuccess) {
       await showAlertDialog(
-        context: context,
-        title: 'Error', 
-        message: response.message,
-        actions: <AlertDialogAction>[
+          context: context,
+          title: 'Error',
+          message: response.message,
+          actions: <AlertDialogAction>[
             AlertDialogAction(key: null, label: 'Aceptar'),
-        ]
-      );    
+          ]);
       return;
     }
 
     await showAlertDialog(
-      context: context,
-      title: 'Confirmación', 
-      message: 'Se ha envido un correo con las instrucciones para activar el usuario. Por favor activelo para poder ingresar a la aplicación.',
-      actions: <AlertDialogAction>[
+        context: context,
+        title: 'Confirmación',
+        message:
+            'Se ha enviado un correo con las instrucciones para activar el usuario. Por favor activelo para poder ingresar a la aplicación.',
+        actions: <AlertDialogAction>[
           AlertDialogAction(key: null, label: 'Aceptar'),
-      ]
-    );    
+        ]);
 
     Navigator.pop(context, 'yes');
+  }
+
+  Widget _showCountry() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      child: Row(
+        children: <Widget>[
+          ElevatedButton(
+            child: Text('Seleccionar País'),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                  (Set<MaterialState> states) {
+                return Color(0xFFE03B8B);
+              }),
+            ),
+            onPressed: () => _selectCountry(),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Text('$_countryCode $_countryName'),
+        ],
+      ),
+    );
+  }
+
+  void _selectCountry() {
+    showCountryPicker(
+      context: context,
+      onSelect: (Country country) {
+        setState(() {
+          _countryName = country.displayNameNoCountryCode;
+          _countryCode = country.phoneCode;
+        });
+      },
+    );
   }
 }

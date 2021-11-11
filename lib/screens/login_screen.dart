@@ -378,11 +378,11 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     Map<String, dynamic> request = {
-      'email': user?.email,
-      'id': user?.id,
+      'email': user.email,
+      'id': user.id,
       'loginType': 1,
-      'fullName': user?.displayName,
-      'photoURL': user?.photoUrl,
+      'fullName': user.displayName,
+      'photoURL': user.photoUrl,
     };
 
     await _socialLogin(request);
@@ -457,13 +457,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future _socialLogin(Map<String, dynamic> request) async {
     var url = Uri.parse('${Constans.apiUrl}/api/Account/SocialLogin');
+    var bodyRequest = jsonEncode(request);
     var response = await http.post(
       url,
       headers: {
         'content-type' : 'application/json',
         'accept' : 'application/json',
       },
-      body: jsonEncode(request),
+      body: bodyRequest,
     );
 
     setState(() {
